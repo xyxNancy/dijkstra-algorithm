@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package dijkstra;
 
 import java.util.Vector;
@@ -113,10 +108,8 @@ class MatrixGraph {
     private Node arrayNode[];   //array of nodes
     private Edge matrixEdge[][];//matrix of distance
 
-    public MatrixGraph(int numNodes) {
-        this.numNodes = numNodes;
-        this.arrayNode = new Node[numNodes];
-        this.matrixEdge = new Edge[numNodes][numNodes];
+    public MatrixGraph(Vector<Node> nodes, Vector<Edge> edges) {
+        
     }
 
     public Edge getEdge(int row, int col) {
