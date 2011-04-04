@@ -10,6 +10,10 @@ import org.jdesktop.application.FrameView;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
+enum DrawType {
+    NODES, EDGES, NODRAW
+}
+
 /**
  * The application's main frame.
  */
@@ -48,8 +52,11 @@ public class DijkstraView extends FrameView {
         btnStep = new javax.swing.JButton();
         btnSolve = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
+        /*
         pnGraph = new javax.swing.JPanel();
+        */pnGraph = new paintPanel();
         pnSolution = new javax.swing.JPanel();
+        jTextStatus = new javax.swing.JTextField();
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
@@ -64,24 +71,59 @@ public class DijkstraView extends FrameView {
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(dijkstra.DijkstraApp.class).getContext().getResourceMap(DijkstraView.class);
         btnNode.setText(resourceMap.getString("btnNode.text")); // NOI18N
         btnNode.setName("btnNode"); // NOI18N
+        btnNode.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnNodeMouseClicked(evt);
+            }
+        });
 
         btnEdge.setText(resourceMap.getString("btnEdge.text")); // NOI18N
         btnEdge.setName("btnEdge"); // NOI18N
+        btnEdge.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEdgeMouseClicked(evt);
+            }
+        });
 
         btnStart.setText(resourceMap.getString("btnStart.text")); // NOI18N
         btnStart.setName("btnStart"); // NOI18N
+        btnStart.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnStartMouseClicked(evt);
+            }
+        });
 
         btnEnd.setText(resourceMap.getString("btnEnd.text")); // NOI18N
         btnEnd.setName("btnEnd"); // NOI18N
+        btnEnd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEndMouseClicked(evt);
+            }
+        });
 
         btnStep.setText(resourceMap.getString("btnStep.text")); // NOI18N
         btnStep.setName("btnStep"); // NOI18N
+        btnStep.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnStepMouseClicked(evt);
+            }
+        });
 
         btnSolve.setText(resourceMap.getString("btnSolve.text")); // NOI18N
         btnSolve.setName("btnSolve"); // NOI18N
+        btnSolve.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSolveMouseClicked(evt);
+            }
+        });
 
         btnClear.setText(resourceMap.getString("btnClear.text")); // NOI18N
         btnClear.setName("btnClear"); // NOI18N
+        btnClear.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnClearMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnButtonLayout = new javax.swing.GroupLayout(pnButton);
         pnButton.setLayout(pnButtonLayout);
@@ -116,36 +158,47 @@ public class DijkstraView extends FrameView {
                 .addComponent(btnSolve, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(btnClear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(20, 20, 20))
+                .addGap(38, 38, 38))
         );
 
-        pnGraph.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Graph", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, null));
+        pnGraph.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Graph", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP));
         pnGraph.setName("pnGraph"); // NOI18N
+        pnGraph.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                pnGraphMouseReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnGraphLayout = new javax.swing.GroupLayout(pnGraph);
         pnGraph.setLayout(pnGraphLayout);
         pnGraphLayout.setHorizontalGroup(
             pnGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 286, Short.MAX_VALUE)
+            .addGap(0, 267, Short.MAX_VALUE)
         );
         pnGraphLayout.setVerticalGroup(
             pnGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 282, Short.MAX_VALUE)
+            .addGap(0, 300, Short.MAX_VALUE)
         );
 
-        pnSolution.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Solution", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP, null));
+        pnSolution.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Solution", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP));
         pnSolution.setName("pnSolution"); // NOI18N
 
         javax.swing.GroupLayout pnSolutionLayout = new javax.swing.GroupLayout(pnSolution);
         pnSolution.setLayout(pnSolutionLayout);
         pnSolutionLayout.setHorizontalGroup(
             pnSolutionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 303, Short.MAX_VALUE)
+            .addGap(0, 322, Short.MAX_VALUE)
         );
         pnSolutionLayout.setVerticalGroup(
             pnSolutionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 282, Short.MAX_VALUE)
+            .addGap(0, 269, Short.MAX_VALUE)
         );
+
+        jTextStatus.setEditable(false);
+        jTextStatus.setText(resourceMap.getString("jTextStatus.text")); // NOI18N
+        jTextStatus.setAutoscrolls(false);
+        jTextStatus.setBorder(null);
+        jTextStatus.setName("jTextStatus"); // NOI18N
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -156,13 +209,19 @@ public class DijkstraView extends FrameView {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnSolution, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE)
+                    .addComponent(pnSolution, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(pnButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(pnGraph, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(pnSolution, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addComponent(pnSolution, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTextStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         menuBar.setName("menuBar"); // NOI18N
@@ -190,6 +249,94 @@ public class DijkstraView extends FrameView {
         setMenuBar(menuBar);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnNodeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNodeMouseClicked
+	// TODO add your handling code here:
+	this.jTextStatus.setText("Draw a node");
+	this.drawType = DrawType.NODES;
+    }//GEN-LAST:event_btnNodeMouseClicked
+
+    private void btnEdgeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEdgeMouseClicked
+	// TODO add your handling code here:
+	this.jTextStatus.setText("Draw an edge");
+	this.draw = false;
+	this.drawType = DrawType.EDGES;
+    }//GEN-LAST:event_btnEdgeMouseClicked
+
+    private void btnStartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStartMouseClicked
+	// TODO add your handling code here:
+    }//GEN-LAST:event_btnStartMouseClicked
+
+    private void btnEndMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEndMouseClicked
+	// TODO add your handling code here:
+    }//GEN-LAST:event_btnEndMouseClicked
+
+    private void btnStepMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStepMouseClicked
+	// TODO add your handling code here:
+    }//GEN-LAST:event_btnStepMouseClicked
+
+    private void btnSolveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSolveMouseClicked
+	// TODO add your handling code here:
+    }//GEN-LAST:event_btnSolveMouseClicked
+
+    private void btnClearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClearMouseClicked
+	// TODO add your handling code here:
+	this.pnGraph.listNodes.clear();
+	this.pnGraph.listEdges.clear();
+	this.jTextStatus.setText("");
+	this.pnGraph.repaint();
+    }//GEN-LAST:event_btnClearMouseClicked
+
+    private void pnGraphMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnGraphMouseReleased
+	// TODO add your handling code here:
+	int x = 0;
+	int y = 0;
+	Node node = null;
+	if (this.drawType != DrawType.NODRAW) {
+	    x = evt.getX() - paintPanel.radius/2;
+	    y = evt.getY() - paintPanel.radius/2;
+	    if (x<0 || y<0) {
+		this.jTextStatus.setText("Can't draw there");
+		this.drawType = DrawType.NODRAW;
+		return;
+	    }
+	    node = this.pnGraph.checkInNode(x, y);
+	}
+
+	if (this.drawType == DrawType.NODES) {
+	    if (node != null) {
+		this.jTextStatus.setText("Concurred with another node");
+	    } else {
+		this.pnGraph.listNodes.add(new Node(x, y, this.numNodes, -1));
+		this.pnGraph.repaint();
+		this.numNodes++;
+		this.jTextStatus.setText("");
+	    }
+	    this.drawType = DrawType.NODRAW;
+	} else if (this.drawType == DrawType.EDGES){
+	    if (node == null) {
+		this.jTextStatus.setText("You must click on exist nodes");
+		this.drawType = DrawType.NODRAW;
+	    } else if (node == this.head) {
+		this.jTextStatus.setText("You must choose another node");
+	    } else {
+		if (draw) {
+		    Edge edge = new Edge(this.head, node, 10);
+		    edge.edgeType = this.pnGraph.checkEdge(this.head, node);
+		    this.pnGraph.listEdges.add(edge);
+		    this.pnGraph.repaint();
+		    this.head = null;
+		    this.drawType = DrawType.NODRAW;
+		    this.jTextStatus.setText("");
+		    this.draw = false;
+		} else {
+		    this.head = node;
+		    this.jTextStatus.setText("Choose tail node");
+		    this.draw = true;
+		}
+	    }
+	}
+    }//GEN-LAST:event_pnGraphMouseReleased
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnEdge;
@@ -198,12 +345,20 @@ public class DijkstraView extends FrameView {
     private javax.swing.JButton btnSolve;
     private javax.swing.JButton btnStart;
     private javax.swing.JButton btnStep;
+    private javax.swing.JTextField jTextStatus;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JPanel pnButton;
+    /*
     private javax.swing.JPanel pnGraph;
+    */private paintPanel pnGraph;
     private javax.swing.JPanel pnSolution;
     // End of variables declaration//GEN-END:variables
 
     private JDialog aboutBox;
+
+    private boolean draw = false;
+    private Node head = null;
+    private DrawType drawType = DrawType.NODRAW;
+    private int numNodes = 0;
 }
