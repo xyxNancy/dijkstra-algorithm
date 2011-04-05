@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * @author Linh
  */
 
-public class paintPanel extends JPanel{
+public class jPaintPanel extends JPanel{
 
     public ArrayList<Node> listNodes;
     public ArrayList<Edge> listEdges;
