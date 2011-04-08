@@ -5,10 +5,12 @@
 package dijkstra;
 
 import java.util.ArrayList;
+import java.io.*;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.SingleFrameApplication;
 import org.jdesktop.application.FrameView;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -67,9 +69,14 @@ public class DijkstraView extends FrameView {
         jSolution = new javax.swing.JTextArea();
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
+        openMenuItem = new javax.swing.JMenuItem();
+        saveMenuItem = new javax.swing.JMenuItem();
+        jSeparator = new javax.swing.JPopupMenu.Separator();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
         javax.swing.JMenu helpMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem aboutMenuItem = new javax.swing.JMenuItem();
+        jOpenFileChooser = new javax.swing.JFileChooser();
+        jSaveFileChooser = new javax.swing.JFileChooser();
 
         mainPanel.setMinimumSize(new java.awt.Dimension(705, 330));
         mainPanel.setName("mainPanel"); // NOI18N
@@ -81,6 +88,7 @@ public class DijkstraView extends FrameView {
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(dijkstra.DijkstraApp.class).getContext().getResourceMap(DijkstraView.class);
         btnNode.setText(resourceMap.getString("btnNode.text")); // NOI18N
+        btnNode.setToolTipText(resourceMap.getString("btnNode.toolTipText")); // NOI18N
         btnNode.setName("btnNode"); // NOI18N
         btnNode.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -89,6 +97,7 @@ public class DijkstraView extends FrameView {
         });
 
         btnEdge.setText(resourceMap.getString("btnEdge.text")); // NOI18N
+        btnEdge.setToolTipText(resourceMap.getString("btnEdge.toolTipText")); // NOI18N
         btnEdge.setName("btnEdge"); // NOI18N
         btnEdge.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -97,6 +106,7 @@ public class DijkstraView extends FrameView {
         });
 
         btnStart.setText(resourceMap.getString("btnStart.text")); // NOI18N
+        btnStart.setToolTipText(resourceMap.getString("btnStart.toolTipText")); // NOI18N
         btnStart.setName("btnStart"); // NOI18N
         btnStart.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -105,6 +115,7 @@ public class DijkstraView extends FrameView {
         });
 
         btnEnd.setText(resourceMap.getString("btnEnd.text")); // NOI18N
+        btnEnd.setToolTipText(resourceMap.getString("btnEnd.toolTipText")); // NOI18N
         btnEnd.setName("btnEnd"); // NOI18N
         btnEnd.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -113,6 +124,7 @@ public class DijkstraView extends FrameView {
         });
 
         btnStep.setText(resourceMap.getString("btnStep.text")); // NOI18N
+        btnStep.setToolTipText(resourceMap.getString("btnStep.toolTipText")); // NOI18N
         btnStep.setName("btnStep"); // NOI18N
         btnStep.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -121,6 +133,7 @@ public class DijkstraView extends FrameView {
         });
 
         btnSolve.setText(resourceMap.getString("btnSolve.text")); // NOI18N
+        btnSolve.setToolTipText(resourceMap.getString("btnSolve.toolTipText")); // NOI18N
         btnSolve.setName("btnSolve"); // NOI18N
         btnSolve.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -129,6 +142,7 @@ public class DijkstraView extends FrameView {
         });
 
         btnClear.setText(resourceMap.getString("btnClear.text")); // NOI18N
+        btnClear.setToolTipText(resourceMap.getString("btnClear.toolTipText")); // NOI18N
         btnClear.setName("btnClear"); // NOI18N
         btnClear.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -173,6 +187,8 @@ public class DijkstraView extends FrameView {
         );
 
         pnGraph.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Graph", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP));
+        pnGraph.setToolTipText(resourceMap.getString("pnGraph.toolTipText")); // NOI18N
+        pnGraph.setFont(resourceMap.getFont("pnGraph.font")); // NOI18N
         pnGraph.setMinimumSize(new java.awt.Dimension(330, 330));
         pnGraph.setName("pnGraph"); // NOI18N
         pnGraph.setPreferredSize(new java.awt.Dimension(330, 330));
@@ -205,6 +221,7 @@ public class DijkstraView extends FrameView {
         );
 
         pnSolution.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Solution", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP));
+        pnSolution.setToolTipText(resourceMap.getString("pnSolution.toolTipText")); // NOI18N
         pnSolution.setMinimumSize(new java.awt.Dimension(280, 330));
         pnSolution.setName("pnSolution"); // NOI18N
         pnSolution.setPreferredSize(new java.awt.Dimension(280, 330));
@@ -213,8 +230,12 @@ public class DijkstraView extends FrameView {
 
         jSolution.setColumns(20);
         jSolution.setEditable(false);
+        jSolution.setFont(resourceMap.getFont("jSolution.font")); // NOI18N
         jSolution.setLineWrap(true);
         jSolution.setRows(5);
+        jSolution.setToolTipText(resourceMap.getString("jSolution.toolTipText")); // NOI18N
+        jSolution.setWrapStyleWord(true);
+        jSolution.setBorder(null);
         jSolution.setEnabled(false);
         jSolution.setFocusable(false);
         jSolution.setName("jSolution"); // NOI18N
@@ -254,6 +275,32 @@ public class DijkstraView extends FrameView {
         fileMenu.setText(resourceMap.getString("fileMenu.text")); // NOI18N
         fileMenu.setName("fileMenu"); // NOI18N
 
+        openMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        openMenuItem.setText(resourceMap.getString("openMenuItem.text")); // NOI18N
+        openMenuItem.setToolTipText(resourceMap.getString("openMenuItem.toolTipText")); // NOI18N
+        openMenuItem.setActionCommand(resourceMap.getString("openMenuItem.actionCommand")); // NOI18N
+        openMenuItem.setName("openMenuItem"); // NOI18N
+        openMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(openMenuItem);
+
+        saveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        saveMenuItem.setText(resourceMap.getString("saveMenuItem.text")); // NOI18N
+        saveMenuItem.setToolTipText(resourceMap.getString("saveMenuItem.toolTipText")); // NOI18N
+        saveMenuItem.setName("saveMenuItem"); // NOI18N
+        saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(saveMenuItem);
+
+        jSeparator.setName("jSeparator"); // NOI18N
+        fileMenu.add(jSeparator);
+
         javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(dijkstra.DijkstraApp.class).getContext().getActionMap(DijkstraView.class, this);
         exitMenuItem.setAction(actionMap.get("quit")); // NOI18N
         exitMenuItem.setName("exitMenuItem"); // NOI18N
@@ -269,6 +316,13 @@ public class DijkstraView extends FrameView {
         helpMenu.add(aboutMenuItem);
 
         menuBar.add(helpMenu);
+
+        jOpenFileChooser.setFileFilter(new AppFilter());
+        jOpenFileChooser.setName("jOpenFileChooser"); // NOI18N
+
+        jSaveFileChooser.setDialogType(javax.swing.JFileChooser.SAVE_DIALOG);
+        jSaveFileChooser.setFileFilter(new AppFilter());
+        jSaveFileChooser.setName("jSaveFileChooser"); // NOI18N
 
         setComponent(mainPanel);
         setMenuBar(menuBar);
@@ -466,6 +520,73 @@ public class DijkstraView extends FrameView {
 	}
     }//GEN-LAST:event_pnGraphMouseReleased
 
+    private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
+
+	this.jTextStatus.setText("");
+	if (this.jOpenFileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+	    File file = this.jOpenFileChooser.getSelectedFile();
+	    this.clearAll();
+	    try {
+		BufferedReader input = new BufferedReader(new FileReader(file));
+		try {
+		    String line = null;
+		    line = input.readLine();
+		    while (line != null) {
+			String splitLine[] = line.split(":");
+			if (splitLine[0].equals("Node")) {
+			    int d = Integer.parseInt(splitLine[1]);
+			    int x = Integer.parseInt(splitLine[2]);
+			    int y = Integer.parseInt(splitLine[3]);
+			    this.pnGraph.listNodes.add(new Node(x, y, d, -1));
+			} else if (splitLine[0].equals("Edge")) {
+			    Node headNode = this.pnGraph.listNodes.get(Integer.parseInt(splitLine[1]));
+			    Node tailNode = this.pnGraph.listNodes.get(Integer.parseInt(splitLine[2]));
+			    int l = Integer.parseInt(splitLine[3]);
+			    Edge edge = new Edge( headNode, tailNode, l);
+			    headNode.outgoingEdges.add(edge);
+			    tailNode.incomingEdges.add(edge);
+			    this.pnGraph.listEdges.add(edge);
+			}
+			line = input.readLine();
+		    }
+		    this.jTextStatus.setText("Load graph successfully");
+		} finally {
+		    input.close();
+		}
+	    } catch (IOException e) {
+	    }
+	}
+    }//GEN-LAST:event_openMenuItemActionPerformed
+
+    private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
+
+	this.jTextStatus.setText("");
+	if (this.pnGraph.listEdges.isEmpty() && this.pnGraph.listNodes.isEmpty()) {
+	    this.jTextStatus.setText("Empty graph, not save");
+	    return;
+	}
+	if (this.jSaveFileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+	    File file = this.jSaveFileChooser.getSelectedFile();
+	    try {
+		BufferedWriter output = new BufferedWriter(new FileWriter(file));
+		try {
+		    for (Node node : this.pnGraph.listNodes) {
+			output.write(String.format("Node:%d:%d:%d", node.getData(), node.getX_cor(), node.getY_cor()));
+			output.newLine();
+		    }
+		    for (Edge edge : this.pnGraph.listEdges) {
+			output.write(String.format("Edge:%d:%d:%d", edge.getHead().getData(), edge.getTail().getData(), edge.getLength()));
+			output.newLine();
+		    }
+		    this.jTextStatus.setText("Save graph successfully");
+		} finally {
+		    output.close();
+		}
+	    } catch (IOException e) {
+	    }
+	}
+    }//GEN-LAST:event_saveMenuItemActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnEdge;
@@ -474,16 +595,21 @@ public class DijkstraView extends FrameView {
     private javax.swing.JButton btnSolve;
     private javax.swing.JButton btnStart;
     private javax.swing.JButton btnStep;
+    private javax.swing.JFileChooser jOpenFileChooser;
+    private javax.swing.JFileChooser jSaveFileChooser;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPopupMenu.Separator jSeparator;
     private javax.swing.JTextArea jSolution;
     private javax.swing.JTextField jTextStatus;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JPanel pnButton;
     /*
     private javax.swing.JPanel pnGraph;
     */private jPaintPanel pnGraph;
     private javax.swing.JPanel pnSolution;
+    private javax.swing.JMenuItem saveMenuItem;
     // End of variables declaration//GEN-END:variables
 
     private JDialog aboutBox;
@@ -595,9 +721,9 @@ public class DijkstraView extends FrameView {
 		tailN = headN;
 	    } while (tailN != null);
 	    for (int i = result.size() - 1; i > 0; i--)
-		this.jSolution.append("Node " + Integer.toString(result.get(i).getData()) + " -> ");
-	    this.jSolution.append("Node " + Integer.toString(result.get(0).getData()) + "\n");
-	    this.jSolution.append("Distance: " + Integer.toString(this.endNode.getKey()));
+		this.jSolution.append(" Node " + Integer.toString(result.get(i).getData()) + " ->");
+	    this.jSolution.append(" Node " + Integer.toString(result.get(0).getData()) + "\n");
+	    this.jSolution.append("\tDistance: " + Integer.toString(this.endNode.getKey()));
 	    this.pnGraph.repaint();
 	    this.pnSolution.repaint();
 	}
