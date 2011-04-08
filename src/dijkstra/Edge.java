@@ -21,12 +21,19 @@ public class Edge {
     private Node tail;
     private Node head;
     private int length;
+    State edgeState;
 
     public Edge(Node head, Node tail, int length) {
 	this.tail = tail;
 	this.head = head;
 	this.length = length;
 	this.edgeType = EdgeType.SINGLE;
+	this.edgeState = State.UNLABELED;
+    }
+
+    @Override
+    public String toString() {
+	return "Edge{" + "edgeType=" + edgeType + "length=" + length + '}';
     }
 
     public Node getHead() {
@@ -52,13 +59,5 @@ public class Edge {
     public void setTail(Node tail) {
 	this.tail = tail;
     }
-
-    public boolean checkStage() {
-	if (head == null || tail == null)
-	    return false;
-	if (head.state == State.LABELED && tail.state == State.LABELED)
-	    return true;
-	return false;
-    }
-
+    
 }
