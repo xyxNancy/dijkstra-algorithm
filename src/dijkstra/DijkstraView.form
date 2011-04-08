@@ -89,6 +89,7 @@
             <Component class="javax.swing.JButton" name="btnNode">
               <Properties>
                 <Property name="text" type="java.lang.String" resourceKey="btnNode.text"/>
+                <Property name="toolTipText" type="java.lang.String" resourceKey="btnNode.toolTipText"/>
                 <Property name="name" type="java.lang.String" value="btnNode" noResource="true"/>
               </Properties>
               <Events>
@@ -98,6 +99,7 @@
             <Component class="javax.swing.JButton" name="btnEdge">
               <Properties>
                 <Property name="text" type="java.lang.String" resourceKey="btnEdge.text"/>
+                <Property name="toolTipText" type="java.lang.String" resourceKey="btnEdge.toolTipText"/>
                 <Property name="name" type="java.lang.String" value="btnEdge" noResource="true"/>
               </Properties>
               <Events>
@@ -107,6 +109,7 @@
             <Component class="javax.swing.JButton" name="btnStart">
               <Properties>
                 <Property name="text" type="java.lang.String" resourceKey="btnStart.text"/>
+                <Property name="toolTipText" type="java.lang.String" resourceKey="btnStart.toolTipText"/>
                 <Property name="name" type="java.lang.String" value="btnStart" noResource="true"/>
               </Properties>
               <Events>
@@ -116,6 +119,7 @@
             <Component class="javax.swing.JButton" name="btnEnd">
               <Properties>
                 <Property name="text" type="java.lang.String" resourceKey="btnEnd.text"/>
+                <Property name="toolTipText" type="java.lang.String" resourceKey="btnEnd.toolTipText"/>
                 <Property name="name" type="java.lang.String" value="btnEnd" noResource="true"/>
               </Properties>
               <Events>
@@ -125,6 +129,7 @@
             <Component class="javax.swing.JButton" name="btnStep">
               <Properties>
                 <Property name="text" type="java.lang.String" resourceKey="btnStep.text"/>
+                <Property name="toolTipText" type="java.lang.String" resourceKey="btnStep.toolTipText"/>
                 <Property name="name" type="java.lang.String" value="btnStep" noResource="true"/>
               </Properties>
               <Events>
@@ -134,6 +139,7 @@
             <Component class="javax.swing.JButton" name="btnSolve">
               <Properties>
                 <Property name="text" type="java.lang.String" resourceKey="btnSolve.text"/>
+                <Property name="toolTipText" type="java.lang.String" resourceKey="btnSolve.toolTipText"/>
                 <Property name="name" type="java.lang.String" value="btnSolve" noResource="true"/>
               </Properties>
               <Events>
@@ -143,6 +149,7 @@
             <Component class="javax.swing.JButton" name="btnClear">
               <Properties>
                 <Property name="text" type="java.lang.String" resourceKey="btnClear.text"/>
+                <Property name="toolTipText" type="java.lang.String" resourceKey="btnClear.toolTipText"/>
                 <Property name="name" type="java.lang.String" value="btnClear" noResource="true"/>
               </Properties>
               <Events>
@@ -158,6 +165,8 @@
                 <TitledBorder position="1" title="Graph"/>
               </Border>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" resourceKey="pnGraph.toolTipText"/>
+            <Property name="font" type="java.awt.Font" resourceKey="pnGraph.font"/>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[330, 330]"/>
             </Property>
@@ -216,6 +225,7 @@
                 <TitledBorder position="1" title="Solution"/>
               </Border>
             </Property>
+            <Property name="toolTipText" type="java.lang.String" resourceKey="pnSolution.toolTipText"/>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[280, 330]"/>
             </Property>
@@ -252,8 +262,14 @@
                   <Properties>
                     <Property name="columns" type="int" value="20"/>
                     <Property name="editable" type="boolean" value="false"/>
+                    <Property name="font" type="java.awt.Font" resourceKey="jSolution.font"/>
                     <Property name="lineWrap" type="boolean" value="true"/>
                     <Property name="rows" type="int" value="5"/>
+                    <Property name="toolTipText" type="java.lang.String" resourceKey="jSolution.toolTipText"/>
+                    <Property name="wrapStyleWord" type="boolean" value="true"/>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                      <Border info="null"/>
+                    </Property>
                     <Property name="enabled" type="boolean" value="false"/>
                     <Property name="focusable" type="boolean" value="false"/>
                     <Property name="name" type="java.lang.String" value="jSolution" noResource="true"/>
@@ -284,6 +300,38 @@
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="0"/>
           </AuxValues>
           <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="openMenuItem">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+O"/>
+                </Property>
+                <Property name="text" type="java.lang.String" resourceKey="openMenuItem.text"/>
+                <Property name="toolTipText" type="java.lang.String" resourceKey="openMenuItem.toolTipText"/>
+                <Property name="actionCommand" type="java.lang.String" resourceKey="openMenuItem.actionCommand"/>
+                <Property name="name" type="java.lang.String" value="openMenuItem" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="openMenuItemActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="saveMenuItem">
+              <Properties>
+                <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
+                  <KeyStroke key="Ctrl+S"/>
+                </Property>
+                <Property name="text" type="java.lang.String" resourceKey="saveMenuItem.text"/>
+                <Property name="toolTipText" type="java.lang.String" resourceKey="saveMenuItem.toolTipText"/>
+                <Property name="name" type="java.lang.String" value="saveMenuItem" noResource="true"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveMenuItemActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator">
+              <Properties>
+                <Property name="name" type="java.lang.String" value="jSeparator" noResource="true"/>
+              </Properties>
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="exitMenuItem">
               <Properties>
                 <Property name="action" type="javax.swing.Action" editor="org.netbeans.modules.swingapp.ActionEditor">
@@ -324,6 +372,23 @@
         </Menu>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JFileChooser" name="jOpenFileChooser">
+      <Properties>
+        <Property name="fileFilter" type="javax.swing.filechooser.FileFilter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="new AppFilter()" type="code"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="jOpenFileChooser" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JFileChooser" name="jSaveFileChooser">
+      <Properties>
+        <Property name="dialogType" type="int" value="1"/>
+        <Property name="fileFilter" type="javax.swing.filechooser.FileFilter" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="new AppFilter()" type="code"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="jSaveFileChooser" noResource="true"/>
+      </Properties>
+    </Component>
   </NonVisualComponents>
   <Properties>
     <Property name="component" type="javax.swing.JComponent" editor="org.netbeans.modules.form.ComponentChooserEditor">
