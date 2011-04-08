@@ -19,13 +19,15 @@ public class jPaintPanel extends JPanel{
 
     public ArrayList<Node> listNodes;
     public ArrayList<Edge> listEdges;
+    public boolean showResult = false;
     public static final int radius = 25;
     private static final int delta = 7;
     private static final Color Normal = Color.GREEN;
     private static final Color Mark = Color.RED;
+    private static final Color Scan = Color.BLUE;
     private static final Color Text = Color.BLACK;
 
-    public paintPanel() {
+    public jPaintPanel() {
 	super();
 	this.listNodes = new ArrayList<Node>();
 	this.listEdges = new ArrayList<Edge>();
@@ -43,21 +45,29 @@ public class jPaintPanel extends JPanel{
     public void drawNode(Graphics g, Node node) {
 	Color c = g.getColor();
 	if (node.state == State.LABELED)
-	    g.setColor(Mark);
+	    g.setColor(jPaintPanel.Mark);
+	else if (!this.showResult && node.state == State.SCANNED)
+	    g.setColor(jPaintPanel.Scan);
 	else
-	    g.setColor(Normal);
+	    g.setColor(jPaintPanel.Normal);
+	
 	g.fillOval(node.getX_cor(), node.getY_cor(), radius, radius);
 	g.setColor(Text);
 	g.drawString(Integer.toString(node.getData()), node.getX_cor() + 2*radius/5, node.getY_cor() + 3*radius/4);
+	if (!this.showResult && node.getKey() > 0)
+	    g.drawString(Integer.toString(node.getKey()), node.getX_cor() + radius, node.getY_cor());
 	g.setColor(c);
     }
 
     public void drawEdge(Graphics g, Edge edge) {
 	Color c = g.getColor();
-	if (edge.checkStage())
-	    g.setColor(Mark);
+	if (edge.edgeState == State.LABELED)
+	    g.setColor(jPaintPanel.Mark);
+	else if (edge.edgeState == State.SCANNED)
+	    g.setColor(jPaintPanel.Scan);
 	else
 	    g.setColor(Normal);
+
 	//for edge
 	double x1 = edge.getHead().getX_cor() + radius/2;
 	double x2 = edge.getTail().getX_cor() + radius/2;
@@ -138,8 +148,8 @@ public class jPaintPanel extends JPanel{
 
     public Node checkInNode(int x, int y) {
 	for (Node node : listNodes) {
-	    int xn = node.getX_cor() - paintPanel.radius/2;
-	    int yn = node.getY_cor() - paintPanel.radius/2;
+	    int xn = node.getX_cor() - jPaintPanel.radius/2;
+	    int yn = node.getY_cor() - jPaintPanel.radius/2;
 	    if (xn < x && yn < y && xn+radius > x && yn+radius >y)
 		return node;
 	}
@@ -155,6 +165,8 @@ public class jPaintPanel extends JPanel{
 		return EdgeType.SECOND;
 	    } else if (eHead.equals(head) && eTail.equals(tail)) {
 		EdgeType temp = edge.edgeType;
+		eHead.outgoingEdges.remove(edge);
+		eTail.incomingEdges.remove(edge);
 		this.listEdges.remove(edge);
 		return temp;
 	    }

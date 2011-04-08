@@ -65,8 +65,11 @@ public class FibonacciHeap {
     }
 
     public Node deleteMin() {
-	Node temp = this.minRoot.getChildren().leftMostSibling();
+	Node temp = null;
 	Node nextTemp = null;
+
+	if (this.minRoot.getChildren() != null)
+	    temp = this.minRoot.getChildren().leftMostSibling();
 
 	//Add minRoot's child to root list
 	while (temp != null) {

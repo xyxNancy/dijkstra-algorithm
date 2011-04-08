@@ -5,6 +5,7 @@
 
 package dijkstra;
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.Template;
 import java.util.ArrayList;
 
 enum State {
@@ -34,26 +35,13 @@ public class Node {
     public int rank;
     State state;
 
-    public Node() {
-    }
-
-    public Node(int data, int key) {
-	this.data = data;
-	this.key = key;
-	this.parent = null;
-	this.leftSibling = null;
-	this.rightSibling = null;
-	this.children = null;
-	this.pred = null;
-	this.rank = 0;
-	this.state = State.UNLABELED;
-    }
-
     public Node(int x_cor, int y_cor, int data, int key) {
 	this.x_cor = x_cor;
 	this.y_cor = y_cor;
 	this.data = data;
 	this.key = key;
+	this.incomingEdges = new ArrayList<Edge>();
+	this.outgoingEdges = new ArrayList<Edge>();
 	this.parent = null;
 	this.leftSibling = null;
 	this.rightSibling = null;
@@ -61,6 +49,11 @@ public class Node {
 	this.pred = null;
 	this.rank = 0;
 	this.state = State.UNLABELED;
+    }
+
+    @Override
+    public String toString() {
+	return "Node{" + "incomingEdges=" + incomingEdges + "outgoingEdges=" + outgoingEdges + "data=" + data + "state=" + state + '}';
     }
 
     @Override
@@ -78,22 +71,26 @@ public class Node {
 	if (this.y_cor != other.y_cor) {
 	    return false;
 	}
+	if (this.data != other.data) {
+	    return false;
+	}
+	if (this.key != other.key) {
+	    return false;
+	}
 	return true;
     }
 
     @Override
     public int hashCode() {
-	int hash = 5;
-	hash = 29 * hash + this.x_cor;
-	hash = 29 * hash + this.y_cor;
+	int hash = 7;
+	hash = 37 * hash + this.x_cor;
+	hash = 37 * hash + this.y_cor;
+	hash = 37 * hash + this.data;
+	hash = 37 * hash + this.key;
 	return hash;
     }
 
-    @Override
-    public String toString() {
-	return "Node{" + "x_cor=" + x_cor + "y_cor=" + y_cor + '}';
-    }
-
+    
     public int getX_cor() {
 	return x_cor;
     }
@@ -158,6 +155,20 @@ public class Node {
 	this.rightSibling = rightSibling;
     }
 
+    public Edge getIncomingEdge(Node head) {
+	for (Edge edge : incomingEdges)
+	    if (edge.getHead().equals(head))
+		return edge;
+	return null;
+    }
+
+    public Edge getOutgoingEdge(Node tail) {
+	for (Edge edge : incomingEdges)
+	    if (edge.getTail().equals(tail))
+		return edge;
+	return null;
+    }
+
     public boolean addChild(Node child) {
 	if (this.children != null) {
 	    this.children.addSibling(child);
@@ -206,14 +217,6 @@ public class Node {
 	this.parent = null;
 
 	return true;
-    }
-
-    public void addIncomingEdge(Edge edge) {
-	this.incomingEdges.add(edge);
-    }
-
-    public void addOutgoingEdge(Edge edge) {
-	this.outgoingEdges.add(edge);
     }
 
     public Node rightMostSibling() {

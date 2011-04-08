@@ -4,14 +4,20 @@
 
 package dijkstra;
 
+import java.util.ArrayList;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.SingleFrameApplication;
 import org.jdesktop.application.FrameView;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 enum DrawType {
     NODES, EDGES, NODRAW
+}
+
+enum StateAlgorithm {
+    UNLOCK, LOCK, SOLVED
 }
 
 /**
@@ -54,11 +60,11 @@ public class DijkstraView extends FrameView {
         btnClear = new javax.swing.JButton();
         /*
         pnGraph = new javax.swing.JPanel();
-        */pnGraph = new paintPanel();
+        */pnGraph = new jPaintPanel();
+        jTextStatus = new javax.swing.JTextField();
         pnSolution = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jSolution = new javax.swing.JTextArea();
-        jTextStatus = new javax.swing.JTextField();
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
@@ -176,15 +182,26 @@ public class DijkstraView extends FrameView {
             }
         });
 
+        jTextStatus.setEditable(false);
+        jTextStatus.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextStatus.setText(resourceMap.getString("jTextStatus.text")); // NOI18N
+        jTextStatus.setAutoscrolls(false);
+        jTextStatus.setBorder(null);
+        jTextStatus.setName("jTextStatus"); // NOI18N
+
         javax.swing.GroupLayout pnGraphLayout = new javax.swing.GroupLayout(pnGraph);
         pnGraph.setLayout(pnGraphLayout);
         pnGraphLayout.setHorizontalGroup(
             pnGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 318, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnGraphLayout.createSequentialGroup()
+                .addContainerGap(183, Short.MAX_VALUE)
+                .addComponent(jTextStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         pnGraphLayout.setVerticalGroup(
             pnGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 302, Short.MAX_VALUE)
+            .addGroup(pnGraphLayout.createSequentialGroup()
+                .addComponent(jTextStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(288, Short.MAX_VALUE))
         );
 
         pnSolution.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Solution", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.ABOVE_TOP));
@@ -196,36 +213,22 @@ public class DijkstraView extends FrameView {
 
         jSolution.setColumns(20);
         jSolution.setEditable(false);
+        jSolution.setLineWrap(true);
         jSolution.setRows(5);
         jSolution.setEnabled(false);
         jSolution.setFocusable(false);
         jSolution.setName("jSolution"); // NOI18N
         jScrollPane1.setViewportView(jSolution);
 
-        jTextStatus.setEditable(false);
-        jTextStatus.setHorizontalAlignment(javax.swing.JTextField.TRAILING);
-        jTextStatus.setText(resourceMap.getString("jTextStatus.text")); // NOI18N
-        jTextStatus.setAutoscrolls(false);
-        jTextStatus.setBorder(null);
-        jTextStatus.setName("jTextStatus"); // NOI18N
-
         javax.swing.GroupLayout pnSolutionLayout = new javax.swing.GroupLayout(pnSolution);
         pnSolution.setLayout(pnSolutionLayout);
         pnSolutionLayout.setHorizontalGroup(
             pnSolutionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnSolutionLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTextStatus, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
-                .addContainerGap())
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         pnSolutionLayout.setVerticalGroup(
             pnSolutionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnSolutionLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
@@ -242,8 +245,8 @@ public class DijkstraView extends FrameView {
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(pnButton, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
-            .addComponent(pnGraph, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
             .addComponent(pnSolution, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
+            .addComponent(pnGraph, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
         );
 
         menuBar.setName("menuBar"); // NOI18N
@@ -272,76 +275,137 @@ public class DijkstraView extends FrameView {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNodeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnNodeMouseClicked
-	// TODO add your handling code here:
-	this.jTextStatus.setText("Draw a node");
-	this.drawType = DrawType.NODES;
-	this.start = false;
-	this.end = false;
+
+	if (this.alState == StateAlgorithm.UNLOCK) {
+	    this.jTextStatus.setText("Draw a node");
+	    this.drawType = DrawType.NODES;
+	    this.start = false;
+	    this.end = false;
+	} else {
+	    this.jTextStatus.setText("Can't not add, solving...");
+	}
     }//GEN-LAST:event_btnNodeMouseClicked
 
     private void btnEdgeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEdgeMouseClicked
-	// TODO add your handling code here:
-	this.jTextStatus.setText("Draw an edge");
-	this.draw = false;
-	this.drawType = DrawType.EDGES;
-	this.start = false;
-	this.end = false;
+
+	if (this.alState == StateAlgorithm.UNLOCK) {
+	    this.jTextStatus.setText("Draw an edge");
+	    this.draw = false;
+	    this.drawType = DrawType.EDGES;
+	    this.start = false;
+	    this.end = false;
+	} else {
+	    this.jTextStatus.setText("Can't not add, solving...");
+	}
     }//GEN-LAST:event_btnEdgeMouseClicked
 
     private void btnStartMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStartMouseClicked
-	// TODO add your handling code here:
-	this.drawType = DrawType.NODRAW;
-	this.start = false;
-	this.end = false;
-	if (this.startNode != null) {
-	    this.jTextStatus.setText("Starting node has been chosen");
-	    return;
-	}
-	this.jTextStatus.setText("Choose starting node");
-	this.start = true;
+
+	if (this.alState == StateAlgorithm.UNLOCK) {
+	    this.drawType = DrawType.NODRAW;
+	    this.start = false;
+	    this.end = false;
+	    if (this.startNode != null) {
+		this.jTextStatus.setText("Starting node has been chosen");
+		return;
+	    }
+	    this.jTextStatus.setText("Choose starting node");
+	    this.start = true;
+	} else
+	    this.jTextStatus.setText("Can't not choose, solving...");
     }//GEN-LAST:event_btnStartMouseClicked
 
     private void btnEndMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEndMouseClicked
-	// TODO add your handling code here:
-	this.drawType = DrawType.NODRAW;
-	this.start = false;
-	this.end = false;
-	if (this.endNode != null) {
-	    this.jTextStatus.setText("Ending node has been chosen");
-	    return;
+
+	if (this.alState == StateAlgorithm.UNLOCK) {
+	    this.drawType = DrawType.NODRAW;
+	    this.start = false;
+	    this.end = false;
+	    if (this.endNode != null) {
+		this.jTextStatus.setText("Ending node has been chosen");
+		return;
+	    }
+	    this.jTextStatus.setText("Choose ending node");
+	    this.end = true;
+	} else {
+	    this.jTextStatus.setText("Can't not choose, solving...");
 	}
-	this.jTextStatus.setText("Choose ending node");
-	this.end = true;
     }//GEN-LAST:event_btnEndMouseClicked
 
     private void btnStepMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnStepMouseClicked
-	// TODO add your handling code here:
-	this.drawType = DrawType.NODRAW;
-	this.start = false;
-	this.end = false;
+
+	if (this.alState == StateAlgorithm.SOLVED) {
+	    this.jTextStatus.setText("Solved");
+	    return;
+	} else if (this.alState == StateAlgorithm.LOCK) {
+	    this.jTextStatus.setText("Solving...");
+	    this.dijkstraAlgorithm();
+	    this.showResult();
+	} else if (this.alState == StateAlgorithm.UNLOCK) {
+	    this.drawType = DrawType.NODRAW;
+	    this.start = false;
+	    this.end = false;
+	    if (this.startNode == null) {
+		this.jTextStatus.setText("Not chosen start node yet");
+		return;
+	    }
+	    if (this.endNode == null) {
+		this.jTextStatus.setText("Not chosen end node yet");
+		return;
+	    }
+
+	    this.jTextStatus.setText("Solving...");
+	    this.heap = new FibonacciHeap();
+	    this.heap.insertVertex(this.startNode);
+	    this.alState = StateAlgorithm.LOCK;
+	    this.dijkstraAlgorithm();
+	    this.showResult();
+	}
     }//GEN-LAST:event_btnStepMouseClicked
 
     private void btnSolveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSolveMouseClicked
-	// TODO add your handling code here:
-	this.drawType = DrawType.NODRAW;
-	this.start = false;
-	this.end = false;
+
+	if (this.alState == StateAlgorithm.SOLVED) {
+	    this.jTextStatus.setText("Solved");
+	    return;
+	}
+	else if (this.alState == StateAlgorithm.UNLOCK) {
+	    this.drawType = DrawType.NODRAW;
+	    this.start = false;
+	    this.end = false;
+	    if (this.startNode == null) {
+		this.jTextStatus.setText("Not chosen start node yet");
+		return;
+	    }
+	    if (this.endNode == null) {
+		this.jTextStatus.setText("Not chosen end node yet");
+		return;
+	    }
+
+	    this.jTextStatus.setText("Solving...");
+	    this.heap = new FibonacciHeap();
+	    this.heap.insertVertex(this.startNode);
+	}
+	while (this.alState != StateAlgorithm.SOLVED) {
+	    this.dijkstraAlgorithm();
+	    this.showResult();
+	}
     }//GEN-LAST:event_btnSolveMouseClicked
 
     private void btnClearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnClearMouseClicked
-	// TODO add your handling code here:
+
 	this.clearAll();
     }//GEN-LAST:event_btnClearMouseClicked
 
     private void pnGraphMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnGraphMouseReleased
-	// TODO add your handling code here:
+
 	int x = 0;
 	int y = 0;
 	Node node = null;
 	if (this.drawType != DrawType.NODRAW || this.start || this.end) {
-	    x = evt.getX() - paintPanel.radius/2;
-	    y = evt.getY() - paintPanel.radius/2;
-	    if (x<0 || y<0) {
+	    x = evt.getX() - jPaintPanel.radius/2;
+	    y = evt.getY() - jPaintPanel.radius/2;
+	    if (x < 0 || y < 0) {
 		this.jTextStatus.setText("Invalid position");
 		this.drawType = DrawType.NODRAW;
 		return;
@@ -351,6 +415,7 @@ public class DijkstraView extends FrameView {
 		if (node.state != State.LABELED) {
 		    if (this.start) {
 			node.state = State.LABELED;
+			node.setKey(0);
 			this.startNode = node;
 			this.jSolution.append("Starting node\t: Node " + Integer.toString(node.getData()) + "\n");
 			this.start = false;
@@ -383,6 +448,9 @@ public class DijkstraView extends FrameView {
 		if (draw) {
 		    Edge edge = new Edge(this.head, node, 10);
 		    edge.edgeType = this.pnGraph.checkEdge(this.head, node);
+		    edge.setLength(Integer.parseInt(JOptionPane.showInputDialog(null, "Length of edge", "Edge", JOptionPane.QUESTION_MESSAGE)));
+		    this.head.outgoingEdges.add(edge);
+		    node.incomingEdges.add(edge);
 		    this.pnGraph.listEdges.add(edge);
 		    this.pnGraph.repaint();
 		    this.head = null;
@@ -414,27 +482,36 @@ public class DijkstraView extends FrameView {
     private javax.swing.JPanel pnButton;
     /*
     private javax.swing.JPanel pnGraph;
-    */private paintPanel pnGraph;
+    */private jPaintPanel pnGraph;
     private javax.swing.JPanel pnSolution;
     // End of variables declaration//GEN-END:variables
 
     private JDialog aboutBox;
 
+    private int numNodes = 0;
+    // for draw
     private boolean draw = false;
+    private Node head = null;
+    private DrawType drawType = DrawType.NODRAW;
+    // for function choose start and end node
     private boolean start = false;
     private boolean end = false;
     private Node startNode = null;
     private Node endNode = null;
-    private Node head = null;
-    private DrawType drawType = DrawType.NODRAW;
-    private int numNodes = 0;
+    // for algorithm
+    private StateAlgorithm alState = StateAlgorithm.UNLOCK;
+    private FibonacciHeap heap = null;
+    private Node curNode = null;
+    private Edge curEdge = null;
+    private int curPos = 0;
 
     private void clearAll() {
 	this.pnGraph.listNodes.clear();
 	this.pnGraph.listEdges.clear();
+	this.pnGraph.showResult = false;
 	this.jTextStatus.setText("");
 	this.pnGraph.repaint();
-	this.pnSolution.repaint();
+	this.jSolution.setText("");
 	this.draw = false;
 	this.end = false;
 	this.start = false;
@@ -443,6 +520,87 @@ public class DijkstraView extends FrameView {
 	this.endNode = null;
 	this.numNodes = 0;
 	this.drawType = DrawType.NODRAW;
+	this.alState = StateAlgorithm.UNLOCK;
+	this.heap = null;
+	this.curNode = null;
+	this.curEdge = null;
+	this.curPos = 0;
+    }
+
+    private void dijkstraAlgorithm() {
+	// check solved
+	if (this.alState == StateAlgorithm.SOLVED)
+	    return;
+	// first time run
+	if (this.curNode == null) {
+	    this.curNode = this.heap.deleteMin();
+	    this.curNode.state = State.SCANNED;
+	    this.curPos = 0;
+	}
+	int sz = this.curNode.outgoingEdges.size();
+	if (this.curPos < sz) {
+	    if (this.curEdge != null)
+		this.curEdge.edgeState = State.UNLABELED;
+	    this.curEdge = this.curNode.outgoingEdges.get(this.curPos);
+	    this.curEdge.edgeState = State.SCANNED;
+	    Node tailOfCurNode = this.curEdge.getTail();
+	    
+	    if (tailOfCurNode.state != State.SCANNED) {
+		if (tailOfCurNode.state == State.UNLABELED) {
+		    // insert a vertex with infinite key
+		    tailOfCurNode.state = State.LABELED;
+		    tailOfCurNode.setPred(this.curNode);
+		    tailOfCurNode.setKey(this.curNode.getKey() + this.curEdge.getLength());
+		    this.heap.insertVertex(tailOfCurNode);
+		} else if (tailOfCurNode.getKey() > this.curNode.getKey() + this.curEdge.getLength()) {
+		    // decrease the key of a vertex with finite key
+		    tailOfCurNode.setPred(this.curNode);
+		    this.heap.decreaseKey(this.curNode.getKey() + this.curEdge.getLength(), tailOfCurNode);
+		}
+	    }
+	    // check next outgoing edge
+	    this.curPos++;
+	} else if (!this.heap.isEmpty()) {
+	    this.curNode = this.heap.deleteMin();
+	    this.curNode.state = State.SCANNED;
+	    this.curPos = 0;
+	} else
+	    this.alState = StateAlgorithm.SOLVED;
+	this.pnGraph.repaint();
+    }
+
+    private void showResult() {
+	if (this.alState != StateAlgorithm.SOLVED)
+	    return;
+
+	this.pnGraph.showResult = true;
+	this.endNode.state = State.LABELED;
+	this.startNode.state = State.LABELED;
+	this.curEdge.edgeState = State.UNLABELED;
+	this.jTextStatus.setText("Solved");
+
+  	if (this.endNode.getPred() == null) {
+	    this.jSolution.append("There is no shorttest path from Node " + Integer.toString(this.startNode.getData())
+			+ " to Node " + Integer.toString(this.endNode.getData()) + "\n");
+	} else {
+	    this.jSolution.append("Path:\n");
+	    ArrayList<Node> result = new ArrayList<Node>();
+	    Node tailN = this.endNode;
+	    do {
+		Node headN = tailN.getPred();
+		if (headN == null) break;
+		headN.state = State.LABELED;
+		tailN.getIncomingEdge(headN).edgeState = State.LABELED;
+		result.add(tailN);
+		tailN = headN;
+	    } while (tailN != null);
+	    for (int i = result.size() - 1; i > 0; i--)
+		this.jSolution.append("Node " + Integer.toString(result.get(i).getData()) + " -> ");
+	    this.jSolution.append("Node " + Integer.toString(result.get(0).getData()) + "\n");
+	    this.jSolution.append("Distance: " + Integer.toString(this.endNode.getKey()));
+	    this.pnGraph.repaint();
+	    this.pnSolution.repaint();
+	}
     }
 
 }
