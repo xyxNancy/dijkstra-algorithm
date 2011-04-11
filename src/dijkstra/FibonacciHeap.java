@@ -5,29 +5,34 @@
 
 package dijkstra;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Linh
  */
 public class FibonacciHeap {
-    private Node[] listByRank;
+    // For Fibonacci heap
     private Node minRoot;
+    private int count;
+    private int maxRank;
 
     public FibonacciHeap() {
-	this.listByRank = new Node[100];
 	this.minRoot = null;
+	this.maxRank = 0;
     }
 
     public FibonacciHeap(Node minRoot) {
-	this.listByRank = new Node[100];
 	this.minRoot = minRoot;
 	this.minRoot.setParent(null);
 	this.minRoot.setChildren(null);
 	this.minRoot.setLeftSibling(null);
 	this.minRoot.setRightSibling(null);
-	this.minRoot.rank = 0;
+	this.minRoot.setRank(0);
+	this.maxRank = 0;
     }
 
+    // method for Fibonacci heap
     public boolean isEmpty() {
 	return (this.minRoot == null);
     }
@@ -36,28 +41,48 @@ public class FibonacciHeap {
 	if (node == null)
 	    return false;
 	if (this.minRoot == null) {
+	    // Have no root
 	    this.minRoot = node;
 	    this.minRoot.setParent(null);
-	    this.minRoot.setChildren(null);
-	    this.minRoot.setLeftSibling(null);
-	    this.minRoot.setRightSibling(null);
-	    this.minRoot.rank = 0;
 	} else {
 	    this.minRoot.addSibling(node);
 	    if (this.minRoot.getKey() > node.getKey())
 		this.minRoot = node;
 	}
+	//this.count++;
 	return true;
     }
 
     public void decreaseKey(int delta, Node vertex) {
 	vertex.setKey(delta);
-	if (vertex.getParent() != null) {
-	    vertex.remove();
-	    this.minRoot.addSibling(vertex);
+	// check position of vertex
+	Node parent = vertex.getParent();
+	if (parent == null) {
+	    // right position check new min root
+	    if (vertex.getKey() < this.minRoot.getKey())
+		this.minRoot = vertex;
+	    return;
+	} else if (parent.getKey() < delta)
+	    // still right position
+	    return;
+
+	Node node = vertex;
+	while (true) {
+	    node.remove();
+	    this.insertVertex(node);
+	    if (parent.getParent() == null)
+		// parent is root
+		break;
+	    else if (!parent.isMark()) {
+		// parent is not mark
+		parent.setMark(true);
+		break;
+	    } else {
+		// parent is mark
+		node = parent;
+		parent = parent.getParent();
+	    }
 	}
-	if (vertex.getKey() < this.minRoot.getKey())
-	    this.minRoot = vertex;
     }
 
     public Node findMin() {
@@ -65,69 +90,73 @@ public class FibonacciHeap {
     }
 
     public Node deleteMin() {
-	Node temp = null;
-	Node nextTemp = null;
-
-	if (this.minRoot.getChildren() != null)
-	    temp = this.minRoot.getChildren().leftMostSibling();
-
-	//Add minRoot's child to root list
-	while (temp != null) {
-	    nextTemp = temp.getRightSibling();
-	    temp.remove();
-	    this.minRoot.addSibling(temp);
-	    temp = nextTemp;
-	}
-
-	//Remove minRoot
-	Node node = this.minRoot;
-	temp = this.minRoot.leftMostSibling();
-	if (temp == this.minRoot) {
-	    if (this.minRoot.getRightSibling() != null)
-		temp = this.minRoot.getRightSibling();
-	    else {
-		this.minRoot.remove();
-		this.minRoot = null;
-		return node;
+	if (this.minRoot != null)
+	    count--;
+	else
+	    return null;
+	// Make children of minRoot new roots
+	if (this.minRoot.getChildren() != null) {
+	    Node temp = this.minRoot.getChildren();
+	    while (temp != null) {
+		temp.remove();
+		this.insertVertex(temp);
+		temp = this.minRoot.getChildren();
 	    }
 	}
+
+	Node min = this.minRoot;
+	// Case: delete last node
+	if (this.minRoot.getRightSibling() == this.minRoot) {
+	    this.count = 0;
+	    this.maxRank = 0;
+	    this.minRoot.remove();
+	    this.minRoot = null;
+	    return min;
+	}
+
+	// Merge root with same rank
+	ArrayList<Node> rankRoots = new ArrayList<Node>(this.maxRank + 1);
+	for (int i = 0; i < this.maxRank + 1; i++)
+	    rankRoots.add(null);
+	this.maxRank = 0;
+	Node curNode = this.minRoot.getRightSibling();
+	int curRank;
+	do {
+	    curRank = curNode.getRank();
+	    Node cur = curNode;
+	    curNode = curNode.getRightSibling();
+	    while (rankRoots.get(curRank) != null) {
+		// have root with same rank
+		Node add = rankRoots.get(curRank);
+		if (cur.getKey() > add.getKey()) {
+		    Node temp = cur;
+		    cur = add;
+		    add = temp;
+		}
+		add.removeSibling();
+		cur.addChild(add);
+		rankRoots.set(curRank, null);
+		curRank++;
+		if (curRank >= rankRoots.size())
+		    rankRoots.add(null);
+	    }
+	    rankRoots.set(curRank, cur);
+	} while (curNode != this.minRoot);
+
+	// Remove minRoot and find new minRoot
 	this.minRoot.remove();
-	this.minRoot = temp;
-	for (int i = 0; i < 100; i++)
-	    listByRank[i] = null;
-	while (temp != null) {
-	    if (temp.getKey() < this.minRoot.getKey())
-		this.minRoot = temp;
-	    nextTemp = temp.getRightSibling();
-	    link(temp);
-	    temp = nextTemp;
+	this.minRoot = null;
+	for (int i = 0; i < rankRoots.size(); i++) {
+	    Node temp = rankRoots.get(i);
+	    if (temp != null) {
+		temp.setLeftSibling(temp);
+		temp.setRightSibling(temp);
+		insertVertex(temp);
+		if (i>this.maxRank)
+		    this.maxRank = i;
+	    }
 	}
-	return node;
+	return min;
     }
 
-    private boolean link(Node root) {
-	if (listByRank[root.rank] == null) {
-	    listByRank[root.rank] = root;
-	    return false;
-	} else {
-	    Node linkVertex = listByRank[root.rank];
-	    listByRank[root.rank] = null;
-	    if ((root.getKey() < linkVertex.getKey()) || root == this.minRoot) {
-		linkVertex.remove();
-		root.addChild(linkVertex);
-		if (listByRank[root.rank] != null)
-		    link(root);
-		else
-		    listByRank[root.rank] = root;
-	    } else {
-		root.remove();
-		linkVertex.addChild(root);
-		if (listByRank[linkVertex.rank] != null)
-		    link(linkVertex);
-		else
-		    listByRank[linkVertex.rank] = linkVertex;
-	    }
-	    return true;
-	}
-    }
 }

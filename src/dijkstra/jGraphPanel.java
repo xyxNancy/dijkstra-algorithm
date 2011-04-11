@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * @author Linh
  */
 
-public class jPaintPanel extends JPanel{
+public class jGraphPanel extends JPanel{
 
     public ArrayList<Node> listNodes;
     public ArrayList<Edge> listEdges;
@@ -27,7 +27,7 @@ public class jPaintPanel extends JPanel{
     private static final Color Scan = Color.BLUE;
     private static final Color Text = Color.BLACK;
 
-    public jPaintPanel() {
+    public jGraphPanel() {
 	super();
 	this.listNodes = new ArrayList<Node>();
 	this.listEdges = new ArrayList<Edge>();
@@ -45,26 +45,26 @@ public class jPaintPanel extends JPanel{
     public void drawNode(Graphics g, Node node) {
 	Color c = g.getColor();
 	if (node.state == State.LABELED)
-	    g.setColor(jPaintPanel.Mark);
+	    g.setColor(jGraphPanel.Mark);
 	else if (!this.showResult && node.state == State.SCANNED)
-	    g.setColor(jPaintPanel.Scan);
+	    g.setColor(jGraphPanel.Scan);
 	else
-	    g.setColor(jPaintPanel.Normal);
+	    g.setColor(jGraphPanel.Normal);
 	
 	g.fillOval(node.getX_cor(), node.getY_cor(), radius, radius);
 	g.setColor(Text);
 	g.drawString(Integer.toString(node.getData()), node.getX_cor() + 2*radius/5, node.getY_cor() + 3*radius/4);
-	if (!this.showResult && node.getKey() > 0)
-	    g.drawString(Integer.toString(node.getKey()), node.getX_cor() + radius, node.getY_cor());
+	//if (!this.showResult && node.getKey() > 0)
+	//    g.drawString(Integer.toString(node.getKey()), node.getX_cor() + radius, node.getY_cor());
 	g.setColor(c);
     }
 
     public void drawEdge(Graphics g, Edge edge) {
 	Color c = g.getColor();
 	if (edge.edgeState == State.LABELED)
-	    g.setColor(jPaintPanel.Mark);
+	    g.setColor(jGraphPanel.Mark);
 	else if (edge.edgeState == State.SCANNED)
-	    g.setColor(jPaintPanel.Scan);
+	    g.setColor(jGraphPanel.Scan);
 	else
 	    g.setColor(Normal);
 
@@ -148,8 +148,8 @@ public class jPaintPanel extends JPanel{
 
     public Node checkInNode(int x, int y) {
 	for (Node node : listNodes) {
-	    int xn = node.getX_cor() - jPaintPanel.radius/2;
-	    int yn = node.getY_cor() - jPaintPanel.radius/2;
+	    int xn = node.getX_cor() - jGraphPanel.radius/2;
+	    int yn = node.getY_cor() - jGraphPanel.radius/2;
 	    if (xn < x && yn < y && xn+radius > x && yn+radius >y)
 		return node;
 	}
