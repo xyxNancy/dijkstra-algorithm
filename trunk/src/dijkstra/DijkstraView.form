@@ -5,11 +5,11 @@
     <Container class="javax.swing.JPanel" name="mainPanel">
       <Properties>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[705, 330]"/>
+          <Dimension value="[715, 600]"/>
         </Property>
         <Property name="name" type="java.lang.String" value="mainPanel" noResource="true"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[705, 330]"/>
+          <Dimension value="[715, 600]"/>
         </Property>
       </Properties>
 
@@ -17,19 +17,38 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="pnButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="pnGraph" max="32767" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
-                  <Component id="pnSolution" min="-2" pref="284" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="1">
+                          <Component id="pnButton" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" max="-2" attributes="0"/>
+                          <Component id="pnGraph" max="32767" attributes="2"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="pnHeap" max="32767" attributes="2"/>
+                          <EmptySpace min="-2" max="-2" attributes="0"/>
+                          <Component id="pnSolution" min="-2" max="-2" attributes="2"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="pnButton" alignment="0" pref="331" max="32767" attributes="0"/>
-              <Component id="pnSolution" alignment="0" pref="331" max="32767" attributes="0"/>
-              <Component id="pnGraph" alignment="1" pref="331" max="32767" attributes="0"/>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="pnButton" max="32767" attributes="0"/>
+                      <Component id="pnGraph" max="32767" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="pnHeap" min="-2" max="-2" attributes="0"/>
+                      <Component id="pnSolution" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+              </Group>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -37,11 +56,11 @@
         <Container class="javax.swing.JPanel" name="pnButton">
           <Properties>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[80, 330]"/>
+              <Dimension value="[90, 300]"/>
             </Property>
             <Property name="name" type="java.lang.String" value="pnButton" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[80, 330]"/>
+              <Dimension value="[90, 300]"/>
             </Property>
           </Properties>
 
@@ -49,38 +68,40 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="2" attributes="0">
-                          <Component id="btnNode" alignment="2" pref="60" max="32767" attributes="0"/>
-                          <Component id="btnClear" alignment="2" pref="60" max="32767" attributes="0"/>
-                          <Component id="btnSolve" alignment="2" pref="60" max="32767" attributes="2"/>
-                          <Component id="btnStep" alignment="2" pref="60" max="32767" attributes="2"/>
-                          <Component id="btnEnd" alignment="2" pref="60" max="32767" attributes="2"/>
-                          <Component id="btnStart" alignment="2" pref="60" max="32767" attributes="2"/>
-                          <Component id="btnEdge" alignment="2" pref="60" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="btnNode" linkSize="7" alignment="2" min="-2" pref="70" max="-2" attributes="0"/>
+                              <Component id="btnEdge" linkSize="7" alignment="2" min="-2" pref="70" max="-2" attributes="0"/>
+                              <Component id="btnStart" linkSize="7" alignment="2" pref="70" max="32767" attributes="1"/>
+                              <Component id="btnEnd" linkSize="7" alignment="2" pref="70" max="32767" attributes="1"/>
+                              <Component id="btnSolve" linkSize="7" alignment="2" pref="70" max="32767" attributes="1"/>
+                              <Component id="btnStep" linkSize="7" alignment="2" min="-2" pref="70" max="-2" attributes="1"/>
+                          </Group>
+                          <Component id="btnClear" linkSize="7" alignment="0" min="-2" pref="70" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                      <Component id="btnNode" pref="23" max="32767" attributes="0"/>
-                      <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnEdge" pref="23" max="32767" attributes="0"/>
-                      <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnStart" pref="23" max="32767" attributes="0"/>
-                      <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnEnd" pref="23" max="32767" attributes="0"/>
-                      <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnStep" pref="23" max="32767" attributes="0"/>
-                      <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnSolve" pref="23" max="32767" attributes="0"/>
-                      <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnClear" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <Component id="btnNode" pref="30" max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnEdge" pref="30" max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnStart" pref="30" max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnEnd" pref="30" max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnSolve" pref="30" max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnStep" pref="30" max="32767" attributes="0"/>
+                      <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnClear" pref="30" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="13" max="-2" attributes="1"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -90,7 +111,14 @@
               <Properties>
                 <Property name="text" type="java.lang.String" resourceKey="btnNode.text"/>
                 <Property name="toolTipText" type="java.lang.String" resourceKey="btnNode.toolTipText"/>
+                <Property name="horizontalTextPosition" type="int" value="0"/>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[70, 30]"/>
+                </Property>
                 <Property name="name" type="java.lang.String" value="btnNode" noResource="true"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[70, 30]"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnNodeMouseClicked"/>
@@ -100,7 +128,14 @@
               <Properties>
                 <Property name="text" type="java.lang.String" resourceKey="btnEdge.text"/>
                 <Property name="toolTipText" type="java.lang.String" resourceKey="btnEdge.toolTipText"/>
+                <Property name="horizontalTextPosition" type="int" value="0"/>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[70, 30]"/>
+                </Property>
                 <Property name="name" type="java.lang.String" value="btnEdge" noResource="true"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[70, 30]"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnEdgeMouseClicked"/>
@@ -110,7 +145,14 @@
               <Properties>
                 <Property name="text" type="java.lang.String" resourceKey="btnStart.text"/>
                 <Property name="toolTipText" type="java.lang.String" resourceKey="btnStart.toolTipText"/>
+                <Property name="horizontalTextPosition" type="int" value="0"/>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[70, 30]"/>
+                </Property>
                 <Property name="name" type="java.lang.String" value="btnStart" noResource="true"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[70, 30]"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnStartMouseClicked"/>
@@ -120,7 +162,14 @@
               <Properties>
                 <Property name="text" type="java.lang.String" resourceKey="btnEnd.text"/>
                 <Property name="toolTipText" type="java.lang.String" resourceKey="btnEnd.toolTipText"/>
+                <Property name="horizontalTextPosition" type="int" value="0"/>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[70, 30]"/>
+                </Property>
                 <Property name="name" type="java.lang.String" value="btnEnd" noResource="true"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[70, 30]"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnEndMouseClicked"/>
@@ -130,7 +179,14 @@
               <Properties>
                 <Property name="text" type="java.lang.String" resourceKey="btnStep.text"/>
                 <Property name="toolTipText" type="java.lang.String" resourceKey="btnStep.toolTipText"/>
+                <Property name="horizontalTextPosition" type="int" value="0"/>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[70, 30]"/>
+                </Property>
                 <Property name="name" type="java.lang.String" value="btnStep" noResource="true"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[70, 30]"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnStepMouseClicked"/>
@@ -140,7 +196,14 @@
               <Properties>
                 <Property name="text" type="java.lang.String" resourceKey="btnSolve.text"/>
                 <Property name="toolTipText" type="java.lang.String" resourceKey="btnSolve.toolTipText"/>
+                <Property name="horizontalTextPosition" type="int" value="0"/>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[70, 30]"/>
+                </Property>
                 <Property name="name" type="java.lang.String" value="btnSolve" noResource="true"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[70, 30]"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnSolveMouseClicked"/>
@@ -150,7 +213,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" resourceKey="btnClear.text"/>
                 <Property name="toolTipText" type="java.lang.String" resourceKey="btnClear.toolTipText"/>
+                <Property name="horizontalTextPosition" type="int" value="0"/>
+                <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[50, 50]"/>
+                </Property>
+                <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[70, 30]"/>
+                </Property>
                 <Property name="name" type="java.lang.String" value="btnClear" noResource="true"/>
+                <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                  <Dimension value="[70, 30]"/>
+                </Property>
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnClearMouseClicked"/>
@@ -162,43 +235,54 @@
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder position="1" title="Graph"/>
+                <TitledBorder title="Graph">
+                  <Property name="titleX" resourceKey="pnGraph.border.title"/>
+                  <Property name="font" resourceKey="pnGraph.border.titleFont"/>
+                </TitledBorder>
               </Border>
             </Property>
             <Property name="toolTipText" type="java.lang.String" resourceKey="pnGraph.toolTipText"/>
             <Property name="font" type="java.awt.Font" resourceKey="pnGraph.font"/>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[330, 330]"/>
+              <Dimension value="[600, 300]"/>
             </Property>
             <Property name="name" type="java.lang.String" value="pnGraph" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[330, 330]"/>
+              <Dimension value="[600, 300]"/>
             </Property>
           </Properties>
           <Events>
             <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="pnGraphMouseReleased"/>
           </Events>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="*/pnGraph = new jPaintPanel();"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="*/this.pnGraph = new jGraphPanel();"/>
             <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="/*"/>
-            <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="*/private jPaintPanel pnGraph;"/>
+            <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="*/private jGraphPanel pnGraph;"/>
             <AuxValue name="JavaCodeGenerator_DeclarationPre" type="java.lang.String" value="/*"/>
           </AuxValues>
 
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="183" max="32767" attributes="1"/>
-                      <Component id="jTextStatus" min="-2" pref="135" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <EmptySpace pref="327" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="jRandomCheck" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jTextStatus" alignment="1" min="-2" pref="261" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
                       <Component id="jTextStatus" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="288" max="32767" attributes="0"/>
+                      <EmptySpace pref="225" max="32767" attributes="0"/>
+                      <Component id="jRandomCheck" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -207,7 +291,8 @@
             <Component class="javax.swing.JTextField" name="jTextStatus">
               <Properties>
                 <Property name="editable" type="boolean" value="false"/>
-                <Property name="horizontalAlignment" type="int" value="0"/>
+                <Property name="font" type="java.awt.Font" resourceKey="jTextStatus.font"/>
+                <Property name="horizontalAlignment" type="int" value="4"/>
                 <Property name="text" type="java.lang.String" resourceKey="jTextStatus.text"/>
                 <Property name="autoscrolls" type="boolean" value="false"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -216,34 +301,107 @@
                 <Property name="name" type="java.lang.String" value="jTextStatus" noResource="true"/>
               </Properties>
             </Component>
+            <Component class="javax.swing.JCheckBox" name="jRandomCheck">
+              <Properties>
+                <Property name="font" type="java.awt.Font" resourceKey="jRandomCheck.font"/>
+                <Property name="selected" type="boolean" value="true"/>
+                <Property name="text" type="java.lang.String" resourceKey="jRandomCheck.text"/>
+                <Property name="toolTipText" type="java.lang.String" resourceKey="jRandomCheck.toolTipText"/>
+                <Property name="enabled" type="boolean" value="false"/>
+                <Property name="name" type="java.lang.String" value="jRandomCheck" noResource="true"/>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="pnHeap">
+          <Properties>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+                <TitledBorder title="Heap">
+                  <Property name="titleX" resourceKey="pnHeap.border.title"/>
+                  <Property name="font" resourceKey="pnHeap.border.titleFont"/>
+                </TitledBorder>
+              </Border>
+            </Property>
+            <Property name="toolTipText" type="java.lang.String" resourceKey="pnHeap.toolTipText"/>
+            <Property name="font" type="java.awt.Font" resourceKey="pnHeap.font"/>
+            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[440, 250]"/>
+            </Property>
+            <Property name="name" type="java.lang.String" value="pnHeap" noResource="true"/>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[440, 250]"/>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="*/this.pnHeap = new jHeapPanel();"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="/*"/>
+            <AuxValue name="JavaCodeGenerator_DeclarationPost" type="java.lang.String" value="*/private jHeapPanel pnHeap;"/>
+            <AuxValue name="JavaCodeGenerator_DeclarationPre" type="java.lang.String" value="/*"/>
+          </AuxValues>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jTextHeap" pref="408" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="jTextHeap" min="-2" pref="16" max="-2" attributes="0"/>
+                      <EmptySpace pref="204" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="jTextHeap">
+              <Properties>
+                <Property name="font" type="java.awt.Font" resourceKey="jTextHeap.font"/>
+                <Property name="horizontalAlignment" type="int" value="4"/>
+                <Property name="text" type="java.lang.String" resourceKey="jTextHeap.text"/>
+                <Property name="name" type="java.lang.String" value="jTextHeap" noResource="true"/>
+              </Properties>
+              <AccessibilityProperties>
+                <Property name="AccessibleContext.accessibleName" type="java.lang.String" resourceKey="jTextHeap.AccessibleContext.accessibleName"/>
+              </AccessibilityProperties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="pnSolution">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder position="1" title="Solution"/>
+                <TitledBorder title="Solution">
+                  <Property name="titleX" resourceKey="pnSolution.border.title"/>
+                  <Property name="font" resourceKey="pnSolution.border.titleFont"/>
+                </TitledBorder>
               </Border>
             </Property>
             <Property name="toolTipText" type="java.lang.String" resourceKey="pnSolution.toolTipText"/>
             <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[280, 330]"/>
+              <Dimension value="[250, 250]"/>
             </Property>
             <Property name="name" type="java.lang.String" value="pnSolution" noResource="true"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-              <Dimension value="[280, 330]"/>
+              <Dimension value="[250, 250]"/>
             </Property>
           </Properties>
 
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane1" alignment="0" min="-2" pref="272" max="-2" attributes="0"/>
+                  <Component id="jScrollPane1" alignment="1" pref="238" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jScrollPane1" alignment="0" pref="302" max="32767" attributes="0"/>
+                  <Component id="jScrollPane1" alignment="0" pref="220" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
           </Layout>
@@ -264,7 +422,7 @@
                     <Property name="editable" type="boolean" value="false"/>
                     <Property name="font" type="java.awt.Font" resourceKey="jSolution.font"/>
                     <Property name="lineWrap" type="boolean" value="true"/>
-                    <Property name="rows" type="int" value="5"/>
+                    <Property name="rows" type="int" value="4"/>
                     <Property name="toolTipText" type="java.lang.String" resourceKey="jSolution.toolTipText"/>
                     <Property name="wrapStyleWord" type="boolean" value="true"/>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -408,6 +566,6 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,1,96,0,0,2,-62"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,2,91,0,0,2,-53"/>
   </AuxValues>
 </Form>

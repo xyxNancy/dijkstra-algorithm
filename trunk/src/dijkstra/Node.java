@@ -5,7 +5,6 @@
 
 package dijkstra;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.Template;
 import java.util.ArrayList;
 
 enum State {
@@ -16,23 +15,24 @@ enum State {
  * @author Linh
  */
 public class Node {
-    //For drawing
+    // For drawing
     private int x_cor;
     private int y_cor;
 
-    //Data structure
+    // For a node in Fibonacci heap
     private Node parent;
     private Node leftSibling;
     private Node rightSibling;
     private Node children;
-    private Node pred;
-
-    public  ArrayList<Edge> incomingEdges;
-    public  ArrayList<Edge> outgoingEdges;
-
     private int data;
     private int key;
-    public int rank;
+    private boolean mark;
+    private int rank;
+    
+    // For graph
+    private Node pred;
+    public  ArrayList<Edge> incomingEdges;
+    public  ArrayList<Edge> outgoingEdges;
     State state;
 
     public Node(int x_cor, int y_cor, int data, int key) {
@@ -43,12 +43,16 @@ public class Node {
 	this.incomingEdges = new ArrayList<Edge>();
 	this.outgoingEdges = new ArrayList<Edge>();
 	this.parent = null;
-	this.leftSibling = null;
-	this.rightSibling = null;
 	this.children = null;
 	this.pred = null;
+	this.mark = false;
 	this.rank = 0;
 	this.state = State.UNLABELED;
+	this.sibling();
+    }
+
+    private void sibling() {
+	this.leftSibling = this.rightSibling = this;
     }
 
     @Override
@@ -89,7 +93,6 @@ public class Node {
 	hash = 37 * hash + this.key;
 	return hash;
     }
-
     
     public int getX_cor() {
 	return x_cor;
@@ -155,6 +158,23 @@ public class Node {
 	this.rightSibling = rightSibling;
     }
 
+    public boolean isMark() {
+	return mark;
+    }
+
+    public void setMark(boolean mark) {
+	this.mark = mark;
+    }
+
+    public int getRank() {
+	return rank;
+    }
+
+    public void setRank(int rank) {
+	this.rank = rank;
+    }
+
+    // method for drawing
     public Edge getIncomingEdge(Node head) {
 	for (Edge edge : incomingEdges)
 	    if (edge.getHead().equals(head))
@@ -169,70 +189,54 @@ public class Node {
 	return null;
     }
 
-    public boolean addChild(Node child) {
-	if (this.children != null) {
+    // method for a node in Fibonacci heap
+    public boolean isSingle() {
+	return (this == this.rightSibling);
+    }
+
+    public void addChild(Node child) {
+	if (this.children != null)
 	    this.children.addSibling(child);
-	} else {
+	else
 	    this.children = child;
-	    child.setParent(this);
-	    this.rank = 1;
-	}
-	return true;
+	child.setParent(this);
+	child.mark = false;
+	this.rank++;
     }
 
-    public boolean addSibling(Node sibling) {
-	Node temp = this.rightMostSibling();
-	if (temp == null)
-	    return false;
+    public void addSibling(Node sibling) {
+	if (sibling == null)
+	    return;
 
-	temp.setRightSibling(sibling);
-	sibling.setLeftSibling(temp);
-	sibling.setParent(this.parent);
-	sibling.setRightSibling(null);
+	Node tLeft = this.leftSibling;
+	Node sLeft = sibling.getLeftSibling();
 
-	if (this.parent != null)
-	    this.parent.rank++;
+	tLeft.setRightSibling(sLeft);
+	sLeft.setRightSibling(this);
 
-	return true;
+	this.setLeftSibling(sLeft);
+	sibling.setLeftSibling(tLeft);
     }
 
-    public boolean remove() {
+    public void removeSibling() {
+	this.getLeftSibling().setRightSibling(this.rightSibling);
+	this.getRightSibling().setLeftSibling(this.leftSibling);
+	this.setRightSibling(this);
+	this.setLeftSibling(this);
+    }
+
+    public void remove() {
 	if (this.parent != null) {
-	    this.parent.rank--;
-	    if (this.leftSibling != null)
-		this.parent.setChildren(this.leftSibling);
-	    else if (this.rightSibling != null)
-		this.parent.setChildren(this.rightSibling);
-	    else
+	    // node have parent
+	    if (this == this.rightSibling)
 		this.parent.setChildren(null);
+	    else
+		this.parent.setChildren(this.rightSibling);
+	    this.parent.rank--;
 	}
 
-	if (this.leftSibling != null)
-	    this.leftSibling.setRightSibling(this.rightSibling);
-	if (this.rightSibling != null)
-	    this.rightSibling.setLeftSibling(this.leftSibling);
-
-	this.leftSibling = null;
-	this.rightSibling = null;
-	this.parent = null;
-
-	return true;
+	if (this != this.rightSibling) this.removeSibling();
+	this.setParent(null);
+	this.mark = false;
     }
-
-    public Node rightMostSibling() {
-	if (this == null) return null;
-	Node temp = this;
-	while (temp.getRightSibling() != null)
-	    temp = temp.getRightSibling();
-	return temp;
-    }
-
-    public Node leftMostSibling() {
-	if (this == null) return null;
-	Node temp = this;
-	while (temp.getLeftSibling() != null)
-	    temp = temp.getLeftSibling();
-	return temp;
-    }
-
 }
