@@ -38,33 +38,37 @@ public class jHeapPanel extends JPanel {
 	    return;
 	if (!this.heap.isEmpty()) {
 	    Color c = g.getColor();
-	    int i = this.drawNode(g, this.heap.findMin(), 50, 40);
+	    int i = this.drawNode(g, this.heap.findMin(), 50, 40, 0, 0);
 	    g.setColor(c);
 	}
     }
 
-    private int drawNode(Graphics g, Node node, int x, int y) {
+    private int drawNode(Graphics g, Node node, int x, int y, int xO, int yO) {
 	int delta = 0;
 	Node temp = node;
 	do {
-	    if (temp == this.heap.findMin())
-		g.setColor(Min);
-	    else if (temp.isMark())
-		g.setColor(Mark);
-	    else
-		g.setColor(Normal);
-	    
-	    g.fillOval(x + delta, y, radius, radius);
-	    g.setColor(Text);
-	    g.drawString(Integer.toString(temp.getData()), x + delta + 2*radius/5, y + 3*radius/4);
-	    g.drawString(Integer.toString(temp.getKey()), x + delta + radius, y);
+	    if (xO > 0 && yO > 0) {
+		g.setColor(jHeapPanel.Normal);
+		g.drawLine(xO + jHeapPanel.radius/2, yO + jHeapPanel.radius/2, x + delta + jHeapPanel.radius/2, y + jHeapPanel.radius/2);
+	    }
 	    int i = 0;
 	    if (temp.getChildren() != null)
-		i = this.drawNode(g, temp.getChildren(), x + delta, y + radius + 5);
+		i = this.drawNode(g, temp.getChildren(), x + delta, y + radius + 10, x + delta, y);
+	    if (temp == this.heap.findMin())
+		g.setColor(jHeapPanel.Min);
+	    else if (temp.isMark())
+		g.setColor(jHeapPanel.Mark);
+	    else
+		g.setColor(jHeapPanel.Normal);
+	    
+	    g.fillOval(x + delta, y, jHeapPanel.radius, jHeapPanel.radius);
+	    g.setColor(jHeapPanel.Text);
+	    g.drawString(Integer.toString(temp.getData()), x + delta + 2*jHeapPanel.radius/5, y + 3*jHeapPanel.radius/4);
+	    g.drawString(Integer.toString(temp.getKey()), x + delta + jHeapPanel.radius, y + jHeapPanel.radius/2);
 	    if (i>0)
 		delta += i;
 	    else
-		delta += radius + 20;
+		delta += jHeapPanel.radius + 30;
 	    temp = temp.getRightSibling();
 	} while (temp != node);
 	return delta;

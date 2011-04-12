@@ -274,7 +274,7 @@ public class DijkstraView extends FrameView {
         pnHeap.setPreferredSize(new java.awt.Dimension(440, 250));
 
         jTextHeap.setFont(resourceMap.getFont("jTextHeap.font")); // NOI18N
-        jTextHeap.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        jTextHeap.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jTextHeap.setText(resourceMap.getString("jTextHeap.text")); // NOI18N
         jTextHeap.setName("jTextHeap"); // NOI18N
 
