@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class jGraphPanel extends JPanel{
 
-    public ArrayList<Node> listNodes;
+    public ArrayList<Vertical> listVerticals;
     public ArrayList<Edge> listEdges;
     public boolean showResult = false;
     public static final int radius = 25;
@@ -29,7 +29,7 @@ public class jGraphPanel extends JPanel{
 
     public jGraphPanel() {
 	super();
-	this.listNodes = new ArrayList<Node>();
+	this.listVerticals = new ArrayList<Vertical>();
 	this.listEdges = new ArrayList<Edge>();
     }
 
@@ -38,24 +38,24 @@ public class jGraphPanel extends JPanel{
 	super.paintComponent(g);
 	for (Edge edge : listEdges)
 	    drawEdge(g, edge);
-	for (Node node : listNodes)
-	    drawNode(g, node);
+	for (Vertical Vertical : listVerticals)
+	    drawVertical(g, Vertical);
     }
 
-    public void drawNode(Graphics g, Node node) {
+    public void drawVertical(Graphics g, Vertical vertical) {
 	Color c = g.getColor();
-	if (node.state == State.LABELED)
+	if (vertical.state == State.LABELED)
 	    g.setColor(jGraphPanel.Mark);
-	else if (!this.showResult && node.state == State.SCANNED)
+	else if (!this.showResult && vertical.state == State.SCANNED)
 	    g.setColor(jGraphPanel.Scan);
 	else
 	    g.setColor(jGraphPanel.Normal);
 	
-	g.fillOval(node.getX_cor(), node.getY_cor(), radius, radius);
+	g.fillOval(vertical.getX_cor(), vertical.getY_cor(), radius, radius);
 	g.setColor(Text);
-	g.drawString(Integer.toString(node.getData()), node.getX_cor() + 2*radius/5, node.getY_cor() + 3*radius/4);
-	//if (!this.showResult && node.getKey() > 0)
-	//    g.drawString(Integer.toString(node.getKey()), node.getX_cor() + radius, node.getY_cor());
+	g.drawString(Integer.toString(vertical.getData()), vertical.getX_cor() + 2*radius/5, vertical.getY_cor() + 3*radius/4);
+	//if (!this.showResult && Vertical.getKey() > 0)
+	//    g.drawString(Integer.toString(Vertical.getKey()), Vertical.getX_cor() + radius, Vertical.getY_cor());
 	g.setColor(c);
     }
 
@@ -146,20 +146,20 @@ public class jGraphPanel extends JPanel{
 	g.setColor(c);
     }
 
-    public Node checkInNode(int x, int y) {
-	for (Node node : listNodes) {
-	    int xn = node.getX_cor() - jGraphPanel.radius/2;
-	    int yn = node.getY_cor() - jGraphPanel.radius/2;
+    public Vertical checkInVertical(int x, int y) {
+	for (Vertical vertical : listVerticals) {
+	    int xn = vertical.getX_cor() - jGraphPanel.radius/2;
+	    int yn = vertical.getY_cor() - jGraphPanel.radius/2;
 	    if (xn < x && yn < y && xn+radius > x && yn+radius >y)
-		return node;
+		return vertical;
 	}
 	return null;
     }
 
-    EdgeType checkEdge(Node head, Node tail) {
+    EdgeType checkEdge(Vertical head, Vertical tail) {
 	for (Edge edge : listEdges) {
-	    Node eHead = edge.getHead();
-	    Node eTail = edge.getTail();
+	    Vertical eHead = edge.getHead();
+	    Vertical eTail = edge.getTail();
 	    if (eHead.equals(tail) && eTail.equals(head)) {
 		edge.edgeType = EdgeType.FIRST;
 		return EdgeType.SECOND;

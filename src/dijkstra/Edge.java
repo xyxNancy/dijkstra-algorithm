@@ -18,12 +18,12 @@ public class Edge {
     EdgeType edgeType;
 
     //Data structure
-    private Node tail;
-    private Node head;
+    private Vertical tail;
+    private Vertical head;
     private int length;
     State edgeState;
 
-    public Edge(Node head, Node tail, int length) {
+    public Edge(Vertical head, Vertical tail, int length) {
 	this.tail = tail;
 	this.head = head;
 	this.length = length;
@@ -36,11 +36,11 @@ public class Edge {
 	return "Edge{" + "edgeType=" + edgeType + "length=" + length + '}';
     }
 
-    public Node getHead() {
+    public Vertical getHead() {
 	return head;
     }
 
-    public void setHead(Node head) {
+    public void setHead(Vertical head) {
 	this.head = head;
     }
 
@@ -52,11 +52,11 @@ public class Edge {
 	this.length = length;
     }
 
-    public Node getTail() {
+    public Vertical getTail() {
 	return tail;
     }
 
-    public void setTail(Node tail) {
+    public void setTail(Vertical tail) {
 	this.tail = tail;
     }
     
