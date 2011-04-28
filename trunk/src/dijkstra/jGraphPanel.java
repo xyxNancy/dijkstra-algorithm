@@ -17,9 +17,13 @@ import java.util.ArrayList;
 
 public class jGraphPanel extends JPanel{
 
-    public ArrayList<Vertical> listVerticals;
+    public ArrayList<Vertex> listVertexs;
     public ArrayList<Edge> listEdges;
     public boolean showResult = false;
+    public boolean mDrag = false;
+    public int xM = 0;
+    public int yM = 0;
+    public Vertex head = null;
     public static final int radius = 25;
     private static final int delta = 7;
     private static final Color Normal = Color.GREEN;
@@ -29,20 +33,26 @@ public class jGraphPanel extends JPanel{
 
     public jGraphPanel() {
 	super();
-	this.listVerticals = new ArrayList<Vertical>();
+	this.listVertexs = new ArrayList<Vertex>();
 	this.listEdges = new ArrayList<Edge>();
     }
 
     @Override
     protected void paintComponent(Graphics g) {
 	super.paintComponent(g);
+	if (this.mDrag && this.head != null) {
+	    Color c = g.getColor();
+	    g.setColor(jGraphPanel.Mark);
+	    g.drawLine(head.getX_cor() + radius/2, head.getY_cor() + radius/2, xM, yM);
+	    g.setColor(c);
+	}
 	for (Edge edge : listEdges)
 	    drawEdge(g, edge);
-	for (Vertical Vertical : listVerticals)
-	    drawVertical(g, Vertical);
+	for (Vertex Vertex : listVertexs)
+	    drawVertex(g, Vertex);
     }
 
-    public void drawVertical(Graphics g, Vertical vertical) {
+    public void drawVertex(Graphics g, Vertex vertical) {
 	Color c = g.getColor();
 	if (vertical.state == State.LABELED)
 	    g.setColor(jGraphPanel.Mark);
@@ -54,8 +64,8 @@ public class jGraphPanel extends JPanel{
 	g.fillOval(vertical.getX_cor(), vertical.getY_cor(), radius, radius);
 	g.setColor(Text);
 	g.drawString(Integer.toString(vertical.getData()), vertical.getX_cor() + 2*radius/5, vertical.getY_cor() + 3*radius/4);
-	//if (!this.showResult && Vertical.getKey() > 0)
-	//    g.drawString(Integer.toString(Vertical.getKey()), Vertical.getX_cor() + radius, Vertical.getY_cor());
+	//if (!this.showResult && Vertex.getKey() > 0)
+	//    g.drawString(Integer.toString(Vertex.getKey()), Vertex.getX_cor() + radius, Vertex.getY_cor());
 	g.setColor(c);
     }
 
@@ -146,8 +156,8 @@ public class jGraphPanel extends JPanel{
 	g.setColor(c);
     }
 
-    public Vertical checkInVertical(int x, int y) {
-	for (Vertical vertical : listVerticals) {
+    public Vertex checkInVertex(int x, int y) {
+	for (Vertex vertical : listVertexs) {
 	    int xn = vertical.getX_cor() - jGraphPanel.radius/2;
 	    int yn = vertical.getY_cor() - jGraphPanel.radius/2;
 	    if (xn < x && yn < y && xn+radius > x && yn+radius >y)
@@ -156,10 +166,10 @@ public class jGraphPanel extends JPanel{
 	return null;
     }
 
-    EdgeType checkEdge(Vertical head, Vertical tail) {
+    EdgeType checkEdge(Vertex head, Vertex tail) {
 	for (Edge edge : listEdges) {
-	    Vertical eHead = edge.getHead();
-	    Vertical eTail = edge.getTail();
+	    Vertex eHead = edge.getHead();
+	    Vertex eTail = edge.getTail();
 	    if (eHead.equals(tail) && eTail.equals(head)) {
 		edge.edgeType = EdgeType.FIRST;
 		return EdgeType.SECOND;

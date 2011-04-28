@@ -14,28 +14,28 @@ enum State {
  *
  * @author Linh
  */
-public class Vertical {
+public class Vertex {
     // For drawing
     private int x_cor;
     private int y_cor;
 
-    // For a node in Fibonacci heap
-    private Vertical parent;
-    private Vertical leftSibling;
-    private Vertical rightSibling;
-    private Vertical children;
+    // For a vertical in Fibonacci heap
+    private Vertex parent;
+    private Vertex leftSibling;
+    private Vertex rightSibling;
+    private Vertex children;
     private int data;
     private int key;
     private boolean mark;
     private int rank;
     
     // For graph
-    private Vertical pred;
+    private Vertex pred;
     public  ArrayList<Edge> incomingEdges;
     public  ArrayList<Edge> outgoingEdges;
     State state;
 
-    public Vertical(int x_cor, int y_cor, int data, int key) {
+    public Vertex(int x_cor, int y_cor, int data, int key) {
 	this.x_cor = x_cor;
 	this.y_cor = y_cor;
 	this.data = data;
@@ -68,7 +68,7 @@ public class Vertical {
 	if (getClass() != obj.getClass()) {
 	    return false;
 	}
-	final Vertical other = (Vertical) obj;
+	final Vertex other = (Vertex) obj;
 	if (this.x_cor != other.x_cor) {
 	    return false;
 	}
@@ -118,43 +118,43 @@ public class Vertical {
 	this.key = key;
     }
 
-    public Vertical getParent() {
+    public Vertex getParent() {
 	return parent;
     }
 
-    public void setParent(Vertical parent) {
+    public void setParent(Vertex parent) {
 	this.parent = parent;
     }
 
-    public Vertical getPred() {
+    public Vertex getPred() {
 	return pred;
     }
 
-    public void setPred(Vertical pred) {
+    public void setPred(Vertex pred) {
 	this.pred = pred;
     }
 
-    public Vertical getChildren() {
+    public Vertex getChildren() {
 	return children;
     }
 
-    public void setChildren(Vertical children) {
+    public void setChildren(Vertex children) {
 	this.children = children;
     }
 
-    public Vertical getLeftSibling() {
+    public Vertex getLeftSibling() {
 	return leftSibling;
     }
 
-    public void setLeftSibling(Vertical leftSibling) {
+    public void setLeftSibling(Vertex leftSibling) {
 	this.leftSibling = leftSibling;
     }
 
-    public Vertical getRightSibling() {
+    public Vertex getRightSibling() {
 	return rightSibling;
     }
 
-    public void setRightSibling(Vertical rightSibling) {
+    public void setRightSibling(Vertex rightSibling) {
 	this.rightSibling = rightSibling;
     }
 
@@ -175,14 +175,14 @@ public class Vertical {
     }
 
     // method for drawing
-    public Edge getIncomingEdge(Vertical head) {
+    public Edge getIncomingEdge(Vertex head) {
 	for (Edge edge : incomingEdges)
 	    if (edge.getHead().equals(head))
 		return edge;
 	return null;
     }
 
-    public Edge getOutgoingEdge(Vertical tail) {
+    public Edge getOutgoingEdge(Vertex tail) {
 	for (Edge edge : incomingEdges)
 	    if (edge.getTail().equals(tail))
 		return edge;
@@ -194,7 +194,7 @@ public class Vertical {
 	return (this == this.rightSibling);
     }
 
-    public void addChild(Vertical child) {
+    public void addChild(Vertex child) {
 	if (this.children != null)
 	    this.children.addSibling(child);
 	else
@@ -204,12 +204,12 @@ public class Vertical {
 	this.rank++;
     }
 
-    public void addSibling(Vertical sibling) {
+    public void addSibling(Vertex sibling) {
 	if (sibling == null)
 	    return;
 
-	Vertical tLeft = this.leftSibling;
-	Vertical sLeft = sibling.getLeftSibling();
+	Vertex tLeft = this.leftSibling;
+	Vertex sLeft = sibling.getLeftSibling();
 
 	tLeft.setRightSibling(sLeft);
 	sLeft.setRightSibling(this);

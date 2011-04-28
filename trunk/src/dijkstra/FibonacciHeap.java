@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 public class FibonacciHeap {
     // For Fibonacci heap
-    private Vertical minRoot;
+    private Vertex minRoot;
     private int count;
     private int maxRank;
 
@@ -22,7 +22,7 @@ public class FibonacciHeap {
 	this.maxRank = 0;
     }
 
-    public FibonacciHeap(Vertical minRoot) {
+    public FibonacciHeap(Vertex minRoot) {
 	this.minRoot = minRoot;
 	this.minRoot.setParent(null);
 	this.minRoot.setChildren(null);
@@ -37,7 +37,7 @@ public class FibonacciHeap {
 	return (this.minRoot == null);
     }
 
-    public boolean insertVertex(Vertical node) {
+    public boolean insertVertex(Vertex node) {
 	if (node == null)
 	    return false;
 	if (this.minRoot == null) {
@@ -53,10 +53,10 @@ public class FibonacciHeap {
 	return true;
     }
 
-    public void decreaseKey(int delta, Vertical vertex) {
+    public void decreaseKey(int delta, Vertex vertex) {
 	vertex.setKey(delta);
 	// check position of vertex
-	Vertical parent = vertex.getParent();
+	Vertex parent = vertex.getParent();
 	if (parent == null) {
 	    // right position check new min root
 	    if (vertex.getKey() < this.minRoot.getKey())
@@ -66,7 +66,7 @@ public class FibonacciHeap {
 	    // still right position
 	    return;
 
-	Vertical node = vertex;
+	Vertex node = vertex;
 	while (true) {
 	    node.remove();
 	    this.insertVertex(node);
@@ -85,18 +85,18 @@ public class FibonacciHeap {
 	}
     }
 
-    public Vertical findMin() {
+    public Vertex findMin() {
 	return this.minRoot;
     }
 
-    public Vertical deleteMin() {
+    public Vertex deleteMin() {
 	if (this.minRoot != null)
 	    count--;
 	else
 	    return null;
 	// Make children of minRoot new roots
 	if (this.minRoot.getChildren() != null) {
-	    Vertical temp = this.minRoot.getChildren();
+	    Vertex temp = this.minRoot.getChildren();
 	    while (temp != null) {
 		temp.remove();
 		this.insertVertex(temp);
@@ -104,7 +104,7 @@ public class FibonacciHeap {
 	    }
 	}
 
-	Vertical min = this.minRoot;
+	Vertex min = this.minRoot;
 	// Case: delete last node
 	if (this.minRoot.getRightSibling() == this.minRoot) {
 	    this.count = 0;
@@ -115,21 +115,21 @@ public class FibonacciHeap {
 	}
 
 	// Merge root with same rank
-	ArrayList<Vertical> rankRoots = new ArrayList<Vertical>(this.maxRank + 1);
+	ArrayList<Vertex> rankRoots = new ArrayList<Vertex>(this.maxRank + 1);
 	for (int i = 0; i < this.maxRank + 1; i++)
 	    rankRoots.add(null);
 	this.maxRank = 0;
-	Vertical curNode = this.minRoot.getRightSibling();
+	Vertex curNode = this.minRoot.getRightSibling();
 	int curRank;
 	do {
 	    curRank = curNode.getRank();
-	    Vertical cur = curNode;
+	    Vertex cur = curNode;
 	    curNode = curNode.getRightSibling();
 	    while (rankRoots.get(curRank) != null) {
 		// have root with same rank
-		Vertical add = rankRoots.get(curRank);
+		Vertex add = rankRoots.get(curRank);
 		if (cur.getKey() > add.getKey()) {
-		    Vertical temp = cur;
+		    Vertex temp = cur;
 		    cur = add;
 		    add = temp;
 		}
@@ -147,7 +147,7 @@ public class FibonacciHeap {
 	this.minRoot.remove();
 	this.minRoot = null;
 	for (int i = 0; i < rankRoots.size(); i++) {
-	    Vertical temp = rankRoots.get(i);
+	    Vertex temp = rankRoots.get(i);
 	    if (temp != null) {
 		temp.setLeftSibling(temp);
 		temp.setRightSibling(temp);

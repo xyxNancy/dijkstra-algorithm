@@ -16,7 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 enum DrawType {
-    VerticalS, EDGES, NODRAW
+    VERTEXS, EDGES, NODRAW
 }
 
 enum StateAlgorithm {
@@ -54,7 +54,7 @@ public class DijkstraView extends FrameView {
 
         mainPanel = new javax.swing.JPanel();
         pnButton = new javax.swing.JPanel();
-        btnVertical = new javax.swing.JButton();
+        btnVertex = new javax.swing.JButton();
         btnEdge = new javax.swing.JButton();
         btnStart = new javax.swing.JButton();
         btnEnd = new javax.swing.JButton();
@@ -93,15 +93,15 @@ public class DijkstraView extends FrameView {
         pnButton.setPreferredSize(new java.awt.Dimension(90, 300));
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(dijkstra.DijkstraApp.class).getContext().getResourceMap(DijkstraView.class);
-        btnVertical.setText(resourceMap.getString("btnVertical.text")); // NOI18N
-        btnVertical.setToolTipText(resourceMap.getString("btnVertical.toolTipText")); // NOI18N
-        btnVertical.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnVertical.setMinimumSize(new java.awt.Dimension(70, 30));
-        btnVertical.setName("btnVertical"); // NOI18N
-        btnVertical.setPreferredSize(new java.awt.Dimension(70, 30));
-        btnVertical.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnVertex.setText(resourceMap.getString("btnVertex.text")); // NOI18N
+        btnVertex.setToolTipText(resourceMap.getString("btnVertex.toolTipText")); // NOI18N
+        btnVertex.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnVertex.setMinimumSize(new java.awt.Dimension(70, 30));
+        btnVertex.setName("btnVertex"); // NOI18N
+        btnVertex.setPreferredSize(new java.awt.Dimension(70, 30));
+        btnVertex.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnVerticalMouseClicked(evt);
+                btnVertexMouseClicked(evt);
             }
         });
 
@@ -186,7 +186,7 @@ public class DijkstraView extends FrameView {
                 .addContainerGap()
                 .addGroup(pnButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(btnVertical, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnVertex, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnEdge, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(btnStart, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
                         .addComponent(btnEnd, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
@@ -196,13 +196,13 @@ public class DijkstraView extends FrameView {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        pnButtonLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClear, btnEdge, btnEnd, btnSolve, btnStart, btnStep, btnVertical});
+        pnButtonLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClear, btnEdge, btnEnd, btnSolve, btnStart, btnStep, btnVertex});
 
         pnButtonLayout.setVerticalGroup(
             pnButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnButtonLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnVertical, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                .addComponent(btnVertex, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnEdge, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -218,7 +218,7 @@ public class DijkstraView extends FrameView {
                 .addGap(13, 13, 13))
         );
 
-        btnVertical.getAccessibleContext().setAccessibleDescription(resourceMap.getString("btnNode.AccessibleContext.accessibleDescription")); // NOI18N
+        btnVertex.getAccessibleContext().setAccessibleDescription(resourceMap.getString("btnNode.AccessibleContext.accessibleDescription")); // NOI18N
 
         pnGraph.setBorder(javax.swing.BorderFactory.createTitledBorder(null, resourceMap.getString("pnGraph.border.title"), javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, resourceMap.getFont("pnGraph.border.titleFont"))); // NOI18N
         pnGraph.setToolTipText(resourceMap.getString("pnGraph.toolTipText")); // NOI18N
@@ -229,6 +229,11 @@ public class DijkstraView extends FrameView {
         pnGraph.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 pnGraphMouseReleased(evt);
+            }
+        });
+        pnGraph.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                pnGraphMouseMoved(evt);
             }
         });
 
@@ -252,7 +257,7 @@ public class DijkstraView extends FrameView {
         pnGraphLayout.setHorizontalGroup(
             pnGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnGraphLayout.createSequentialGroup()
-                .addContainerGap(377, Short.MAX_VALUE)
+                .addContainerGap(327, Short.MAX_VALUE)
                 .addGroup(pnGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnGraphLayout.createSequentialGroup()
                         .addComponent(jRandomCheck)
@@ -286,7 +291,7 @@ public class DijkstraView extends FrameView {
             pnHeapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnHeapLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTextHeap, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE)
+                .addComponent(jTextHeap, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
                 .addContainerGap())
         );
         pnHeapLayout.setVerticalGroup(
@@ -340,9 +345,9 @@ public class DijkstraView extends FrameView {
                     .addGroup(mainPanelLayout.createSequentialGroup()
                         .addComponent(pnButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(pnGraph, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE))
+                        .addComponent(pnGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addComponent(pnHeap, javax.swing.GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
+                        .addComponent(pnHeap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pnSolution, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(9, 9, 9))
@@ -419,18 +424,20 @@ public class DijkstraView extends FrameView {
         setMenuBar(menuBar);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnVerticalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVerticalMouseClicked
+    private void btnVertexMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVertexMouseClicked
 
 	if (this.alState == StateAlgorithm.UNLOCK) {
-	    this.jTextStatus.setText("Draw a vertical");
+	    this.jTextStatus.setText("Draw a vertex");
 	    this.jRandomCheck.setEnabled(false);
-	    this.drawType = DrawType.VerticalS;
+	    this.drawType = DrawType.VERTEXS;
 	    this.start = false;
 	    this.end = false;
+	    this.pnGraph.mDrag = false;
+	    this.pnGraph.repaint();
 	} else {
 	    this.jTextStatus.setText("Can't not add, solving...");
 	}
-    }//GEN-LAST:event_btnVerticalMouseClicked
+    }//GEN-LAST:event_btnVertexMouseClicked
 
     private void btnEdgeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEdgeMouseClicked
 
@@ -441,6 +448,8 @@ public class DijkstraView extends FrameView {
 	    this.drawType = DrawType.EDGES;
 	    this.start = false;
 	    this.end = false;
+	    this.pnGraph.mDrag = false;
+	    this.pnGraph.repaint();
 	} else {
 	    this.jTextStatus.setText("Can't not add, solving...");
 	}
@@ -453,11 +462,13 @@ public class DijkstraView extends FrameView {
 	    this.jRandomCheck.setEnabled(false);
 	    this.start = false;
 	    this.end = false;
-	    if (this.startVertical != null) {
-		this.jTextStatus.setText("Starting vertical has been chosen");
+	    this.pnGraph.mDrag = false;
+	    this.pnGraph.repaint();
+	    if (this.startVertex != null) {
+		this.jTextStatus.setText("Starting vertex has been chosen");
 		return;
 	    }
-	    this.jTextStatus.setText("Choose starting vertical");
+	    this.jTextStatus.setText("Choose starting vertex");
 	    this.start = true;
 	} else
 	    this.jTextStatus.setText("Can't not choose, solving...");
@@ -469,12 +480,14 @@ public class DijkstraView extends FrameView {
 	    this.drawType = DrawType.NODRAW;
 	    this.start = false;
 	    this.end = false;
+	    this.pnGraph.mDrag = false;
+	    this.pnGraph.repaint();
 	    this.jRandomCheck.setEnabled(false);
-	    if (this.endVertical != null) {
-		this.jTextStatus.setText("Ending vertical has been chosen");
+	    if (this.endVertex != null) {
+		this.jTextStatus.setText("Ending vertex has been chosen");
 		return;
 	    }
-	    this.jTextStatus.setText("Choose ending vertical");
+	    this.jTextStatus.setText("Choose ending vertex");
 	    this.end = true;
 	} else {
 	    this.jTextStatus.setText("Can't not choose, solving...");
@@ -494,19 +507,21 @@ public class DijkstraView extends FrameView {
 	    this.drawType = DrawType.NODRAW;
 	    this.start = false;
 	    this.end = false;
+	    this.pnGraph.mDrag = false;
+	    this.pnGraph.repaint();
 	    this.jRandomCheck.setEnabled(false);
-	    if (this.startVertical == null) {
-		this.jTextStatus.setText("Not chosen start vertical yet");
+	    if (this.startVertex == null) {
+		this.jTextStatus.setText("Not chosen start vertex yet");
 		return;
 	    }
-	    if (this.endVertical == null) {
-		this.jTextStatus.setText("Not chosen end vertical yet");
+	    if (this.endVertex == null) {
+		this.jTextStatus.setText("Not chosen end vertex yet");
 		return;
 	    }
 
 	    this.jTextStatus.setText("Solving...");
 	    this.pnHeap.heap = new FibonacciHeap();
-	    this.pnHeap.heap.insertVertex(this.startVertical);
+	    this.pnHeap.heap.insertVertex(this.startVertex);
 	    this.alState = StateAlgorithm.LOCK;
 	    this.dijkstraAlgorithm();
 	    this.showResult();
@@ -523,17 +538,19 @@ public class DijkstraView extends FrameView {
 	    this.drawType = DrawType.NODRAW;
 	    this.start = false;
 	    this.end = false;
+	    this.pnGraph.mDrag = false;
+	    this.pnGraph.repaint();
 	    this.jRandomCheck.setEnabled(false);
-	    if (this.startVertical == null) {
-		this.jTextStatus.setText("Not chosen start vertical yet");
+	    if (this.startVertex == null) {
+		this.jTextStatus.setText("Not chosen start vertex yet");
 		return;
 	    }
-	    if (this.endVertical == null) {
-		this.jTextStatus.setText("Not chosen end vertical yet");
+	    if (this.endVertex == null) {
+		this.jTextStatus.setText("Not chosen end vertex yet");
 		return;
 	    }
 	    this.pnHeap.heap = new FibonacciHeap();
-	    this.pnHeap.heap.insertVertex(this.startVertical);
+	    this.pnHeap.heap.insertVertex(this.startVertex);
 	}
 	while (this.alState != StateAlgorithm.SOLVED)
 	    this.dijkstraAlgorithm();
@@ -550,7 +567,7 @@ public class DijkstraView extends FrameView {
 
 	int x = 0;
 	int y = 0;
-	Vertical vertical = null;
+	Vertex vertex = null;
 	if (this.drawType != DrawType.NODRAW || this.start || this.end) {
 	    x = evt.getX() - jGraphPanel.radius/2;
 	    y = evt.getY() - jGraphPanel.radius/2;
@@ -559,67 +576,66 @@ public class DijkstraView extends FrameView {
 		this.drawType = DrawType.NODRAW;
 		return;
 	    }
-	    vertical = this.pnGraph.checkInVertical(x, y);
-	    if (vertical != null)
-		if (vertical.state != State.LABELED) {
+	    vertex = this.pnGraph.checkInVertex(x, y);
+	    if (vertex != null)
+		if (vertex.state != State.LABELED)
 		    if (this.start) {
-			vertical.state = State.LABELED;
-			vertical.setKey(0);
-			this.startVertical = vertical;
+			vertex.state = State.LABELED;
+			vertex.setKey(0);
+			this.startVertex = vertex;
 			this.jTextStatus.setText("");
-			this.jSolution.append("Starting vertical: Vertical " + Integer.toString(vertical.getData()) + "\n");
+			this.jSolution.append("Starting vertex\t: Vertex " + Integer.toString(vertex.getData()) + "\n");
 			this.start = false;
 		    } else if (this.end) {
-			vertical.state = State.LABELED;
-			this.endVertical = vertical;
+			vertex.state = State.LABELED;
+			this.endVertex = vertex;
 			this.jTextStatus.setText("");
-			this.jSolution.append("Ending vertical\t: Vertical " + Integer.toString(vertical.getData()) + "\n");
+			this.jSolution.append("Ending vertex\t: Vertex " + Integer.toString(vertex.getData()) + "\n");
 			this.end = false;
 		    }
-		    this.pnGraph.repaint();
-		}
 	}
 
-	if (this.drawType == DrawType.VerticalS) {
-	    if (vertical != null) {
-		this.jTextStatus.setText("Concurred with another vertical");
+	if (this.drawType == DrawType.VERTEXS) {
+	    if (vertex != null) {
+		this.jTextStatus.setText("Concurred with another vertex");
 	    } else {
-		this.pnGraph.listVerticals.add(new Vertical(x, y, this.numVerticals, -1));
-		this.pnGraph.repaint();
-		this.numVerticals++;
-		this.jTextStatus.setText("");
+		this.pnGraph.listVertexs.add(new Vertex(x, y, this.numVertexs, -1));
+		this.numVertexs++;
 	    }
-	    this.drawType = DrawType.NODRAW;
 	} else if (this.drawType == DrawType.EDGES){
-	    if (vertical == null) {
-		this.jTextStatus.setText("You must click on exist vertical");
-		this.drawType = DrawType.NODRAW;
-	    } else if (vertical == this.head) {
-		this.jTextStatus.setText("You must choose another vertical");
-	    } else {
+	    if (vertex == null)
+		this.jTextStatus.setText("You must click on exist vertex");
+	    else if (vertex == this.head)
+		this.jTextStatus.setText("You must choose another vertex");
+	    else {
 		if (draw) {
-		    Edge edge = new Edge(this.head, vertical, 10);
-		    edge.edgeType = this.pnGraph.checkEdge(this.head, vertical);
+		    this.pnGraph.mDrag = false;
+		    this.pnGraph.head = null;
+		    Edge edge = new Edge(this.head, vertex, 10);
+		    edge.edgeType = this.pnGraph.checkEdge(this.head, vertex);
 		    if (this.jRandomCheck.isSelected()) {
 			Random random = new Random();
 			edge.setLength(random.nextInt(20));
 		    } else
 			edge.setLength(Integer.parseInt(JOptionPane.showInputDialog(null, "Length of edge", "Edge", JOptionPane.QUESTION_MESSAGE)));
 		    this.head.outgoingEdges.add(edge);
-		    vertical.incomingEdges.add(edge);
+		    vertex.incomingEdges.add(edge);
 		    this.pnGraph.listEdges.add(edge);
-		    this.pnGraph.repaint();
 		    this.head = null;
-		    this.drawType = DrawType.NODRAW;
-		    this.jTextStatus.setText("");
+		    this.jTextStatus.setText("Draw an edge");
 		    this.draw = false;
 		} else {
-		    this.head = vertical;
-		    this.jTextStatus.setText("Choose tail vertical");
+		    this.head = vertex;
+		    this.pnGraph.head = vertex;
+		    this.pnGraph.xM = evt.getX();
+		    this.pnGraph.yM = evt.getY();
+		    this.pnGraph.mDrag = true;
+		    this.jTextStatus.setText("Choose tail vertex");
 		    this.draw = true;
 		}
 	    }
 	}
+	this.pnGraph.repaint();
     }//GEN-LAST:event_pnGraphMouseReleased
 
     private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
@@ -635,19 +651,19 @@ public class DijkstraView extends FrameView {
 		    line = input.readLine();
 		    while (line != null) {
 			String splitLine[] = line.split(":");
-			if (splitLine[0].equals("Vertical")) {
+			if (splitLine[0].equals("Vertex")) {
 			    int d = Integer.parseInt(splitLine[1]);
 			    int x = Integer.parseInt(splitLine[2]);
 			    int y = Integer.parseInt(splitLine[3]);
-			    this.pnGraph.listVerticals.add(new Vertical(x, y, d, -1));
+			    this.pnGraph.listVertexs.add(new Vertex(x, y, d, -1));
 			} else if (splitLine[0].equals("Edge")) {
-			    Vertical headVertical = this.pnGraph.listVerticals.get(Integer.parseInt(splitLine[1]));
-			    Vertical tailVertical = this.pnGraph.listVerticals.get(Integer.parseInt(splitLine[2]));
+			    Vertex headVertex = this.pnGraph.listVertexs.get(Integer.parseInt(splitLine[1]));
+			    Vertex tailVertex = this.pnGraph.listVertexs.get(Integer.parseInt(splitLine[2]));
 			    int l = Integer.parseInt(splitLine[3]);
-			    Edge edge = new Edge( headVertical, tailVertical, l);
-			    edge.edgeType = this.pnGraph.checkEdge(headVertical, tailVertical);
-			    headVertical.outgoingEdges.add(edge);
-			    tailVertical.incomingEdges.add(edge);
+			    Edge edge = new Edge( headVertex, tailVertex, l);
+			    edge.edgeType = this.pnGraph.checkEdge(headVertex, tailVertex);
+			    headVertex.outgoingEdges.add(edge);
+			    tailVertex.incomingEdges.add(edge);
 			    this.pnGraph.listEdges.add(edge);
 			}
 			line = input.readLine();
@@ -664,7 +680,7 @@ public class DijkstraView extends FrameView {
     private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
 
 	this.jTextStatus.setText("");
-	if (this.pnGraph.listEdges.isEmpty() && this.pnGraph.listVerticals.isEmpty()) {
+	if (this.pnGraph.listEdges.isEmpty() && this.pnGraph.listVertexs.isEmpty()) {
 	    this.jTextStatus.setText("Empty graph, not save");
 	    return;
 	}
@@ -673,8 +689,8 @@ public class DijkstraView extends FrameView {
 	    try {
 		BufferedWriter output = new BufferedWriter(new FileWriter(file));
 		try {
-		    for (Vertical Vertical : this.pnGraph.listVerticals) {
-			output.write(String.format("Vertical:%d:%d:%d", Vertical.getData(), Vertical.getX_cor(), Vertical.getY_cor()));
+		    for (Vertex Vertex : this.pnGraph.listVertexs) {
+			output.write(String.format("Vertex:%d:%d:%d", Vertex.getData(), Vertex.getX_cor(), Vertex.getY_cor()));
 			output.newLine();
 		    }
 		    for (Edge edge : this.pnGraph.listEdges) {
@@ -690,6 +706,15 @@ public class DijkstraView extends FrameView {
 	}
     }//GEN-LAST:event_saveMenuItemActionPerformed
 
+    private void pnGraphMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnGraphMouseMoved
+
+	if (this.pnGraph.mDrag) {
+	    this.pnGraph.xM = evt.getX();
+	    this.pnGraph.yM = evt.getY();
+	    this.pnGraph.repaint();
+	}
+    }//GEN-LAST:event_pnGraphMouseMoved
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnEdge;
@@ -697,7 +722,7 @@ public class DijkstraView extends FrameView {
     private javax.swing.JButton btnSolve;
     private javax.swing.JButton btnStart;
     private javax.swing.JButton btnStep;
-    private javax.swing.JButton btnVertical;
+    private javax.swing.JButton btnVertex;
     private javax.swing.JFileChooser jOpenFileChooser;
     private javax.swing.JCheckBox jRandomCheck;
     private javax.swing.JFileChooser jSaveFileChooser;
@@ -722,29 +747,30 @@ public class DijkstraView extends FrameView {
 
     private JDialog aboutBox;
 
-    private int numVerticals = 0;
+    private int numVertexs = 0;
 
     // for draw
     private boolean draw = false;
-    private Vertical head = null;
+    private Vertex head = null;
     private DrawType drawType = DrawType.NODRAW;
 
-    // for function choose start and end Vertical
+    // for function choose start and end Vertex
     private boolean start = false;
     private boolean end = false;
-    private Vertical startVertical = null;
-    private Vertical endVertical = null;
+    private Vertex startVertex = null;
+    private Vertex endVertex = null;
     
     // for algorithm
     private StateAlgorithm alState = StateAlgorithm.UNLOCK;
-    private Vertical curVertical = null;
+    private Vertex curVertex = null;
     private Edge curEdge = null;
     private int curPos = 0;
 
     private void clearAll() {
-	this.pnGraph.listVerticals.clear();
+	this.pnGraph.listVertexs.clear();
 	this.pnGraph.listEdges.clear();
 	this.pnGraph.showResult = false;
+	this.pnGraph.mDrag = false;
 	this.pnGraph.repaint();
 	this.pnHeap.heap = null;
 	this.pnHeap.repaint();
@@ -756,12 +782,12 @@ public class DijkstraView extends FrameView {
 	this.end = false;
 	this.start = false;
 	this.head = null;
-	this.startVertical = null;
-	this.endVertical = null;
-	this.numVerticals = 0;
+	this.startVertex = null;
+	this.endVertex = null;
+	this.numVertexs = 0;
 	this.drawType = DrawType.NODRAW;
 	this.alState = StateAlgorithm.UNLOCK;
-	this.curVertical = null;
+	this.curVertex = null;
 	this.curEdge = null;
 	this.curPos = 0;
     }
@@ -772,44 +798,44 @@ public class DijkstraView extends FrameView {
 	if (this.alState == StateAlgorithm.SOLVED)
 	    return;
 	// first time run
-	if (this.curVertical == null) {
-	    this.endVertical.state = State.UNLABELED;
-	    this.curVertical = this.pnHeap.heap.deleteMin();
-	    this.curVertical.state = State.SCANNED;
+	if (this.curVertex == null) {
+	    this.endVertex.state = State.UNLABELED;
+	    this.curVertex = this.pnHeap.heap.deleteMin();
+	    this.curVertex.state = State.SCANNED;
 	    this.curPos = 0;
 	}
-	int sz = this.curVertical.outgoingEdges.size();
+	int sz = this.curVertex.outgoingEdges.size();
 	if (this.curPos < sz) {
 	    if (this.curEdge != null)
 		this.curEdge.edgeState = State.UNLABELED;
-	    this.curEdge = this.curVertical.outgoingEdges.get(this.curPos);
+	    this.curEdge = this.curVertex.outgoingEdges.get(this.curPos);
 	    this.curEdge.edgeState = State.SCANNED;
-	    Vertical tailOfCurVertical = this.curEdge.getTail();
+	    Vertex tailOfCurVertex = this.curEdge.getTail();
 	    
-	    if (tailOfCurVertical.state != State.SCANNED) {
-		if (tailOfCurVertical.state == State.UNLABELED) {
-		    // insert a vertex with infinite key
-		    tailOfCurVertical.state = State.LABELED;
-		    tailOfCurVertical.setPred(this.curVertical);
-		    tailOfCurVertical.setKey(this.curVertical.getKey() + this.curEdge.getLength());
-		    this.pnHeap.heap.insertVertex(tailOfCurVertical);
-		    this.jTextHeap.setText("Insert vertical " + Integer.toString(tailOfCurVertical.getData()));
-		} else if (tailOfCurVertical.getKey() > this.curVertical.getKey() + this.curEdge.getLength()) {
+	    if (tailOfCurVertex.state != State.SCANNED) {
+		if (tailOfCurVertex.state == State.UNLABELED) {
+		    // insert a vertex with
+		    tailOfCurVertex.state = State.LABELED;
+		    tailOfCurVertex.setPred(this.curVertex);
+		    tailOfCurVertex.setKey(this.curVertex.getKey() + this.curEdge.getLength());
+		    this.pnHeap.heap.insertVertex(tailOfCurVertex);
+		    this.jTextHeap.setText("Insert vertex " + Integer.toString(tailOfCurVertex.getData()));
+		} else if (tailOfCurVertex.getKey() > this.curVertex.getKey() + this.curEdge.getLength()) {
 		    // decrease the key of a vertex with finite key
-		    tailOfCurVertical.setPred(this.curVertical);
-		    this.jTextHeap.setText("Decrease key of vertical " + Integer.toString(tailOfCurVertical.getData())
-			    + " from " + Integer.toString(tailOfCurVertical.getKey())
-			    + " to " + Integer.toString(this.curVertical.getKey() + this.curEdge.getLength()));
-		    this.pnHeap.heap.decreaseKey(this.curVertical.getKey() + this.curEdge.getLength(), tailOfCurVertical);
+		    tailOfCurVertex.setPred(this.curVertex);
+		    this.jTextHeap.setText("Decrease key of vertex " + Integer.toString(tailOfCurVertex.getData())
+			    + " from " + Integer.toString(tailOfCurVertex.getKey())
+			    + " to " + Integer.toString(this.curVertex.getKey() + this.curEdge.getLength()));
+		    this.pnHeap.heap.decreaseKey(this.curVertex.getKey() + this.curEdge.getLength(), tailOfCurVertex);
 		}
 	    }
 	    // check next outgoing edge
 	    this.curPos++;
 	} else if (!this.pnHeap.heap.isEmpty()) {
 	    this.curEdge.edgeState = State.UNLABELED;
-	    this.curVertical = this.pnHeap.heap.deleteMin();
-	    this.jTextHeap.setText("Delete min vertical " + Integer.toString(this.curVertical.getData()));
-	    this.curVertical.state = State.SCANNED;
+	    this.curVertex = this.pnHeap.heap.deleteMin();
+	    this.jTextHeap.setText("Delete min vertex " + Integer.toString(this.curVertex.getData()));
+	    this.curVertex.state = State.SCANNED;
 	    this.curPos = 0;
 	} else
 	    this.alState = StateAlgorithm.SOLVED;
@@ -822,31 +848,31 @@ public class DijkstraView extends FrameView {
 	    return;
 
 	this.pnGraph.showResult = true;
-	this.endVertical.state = State.LABELED;
-	this.startVertical.state = State.LABELED;
+	this.endVertex.state = State.LABELED;
+	this.startVertex.state = State.LABELED;
 	if (this.curEdge != null)
 	    this.curEdge.edgeState = State.UNLABELED;
 	this.jTextStatus.setText("Solved");
 
-  	if (this.endVertical.getPred() == null)
-	    this.jSolution.append("There is no shorttest path from vertical " + Integer.toString(this.startVertical.getData())
-			+ " to vertical " + Integer.toString(this.endVertical.getData()) + "\n");
+  	if (this.endVertex.getPred() == null)
+	    this.jSolution.append("There is no shorttest path from vertex " + Integer.toString(this.startVertex.getData())
+			+ " to vertex " + Integer.toString(this.endVertex.getData()) + "\n");
 	else {
 	    this.jSolution.append("Path:\n");
-	    ArrayList<Vertical> result = new ArrayList<Vertical>();
-	    Vertical tailN = this.endVertical;
+	    ArrayList<Vertex> result = new ArrayList<Vertex>();
+	    Vertex tailN = this.endVertex;
 	    do {
 		tailN.state = State.LABELED;
 		result.add(tailN);
-		Vertical headN = tailN.getPred();
+		Vertex headN = tailN.getPred();
 		if (headN == null) break;
 		tailN.getIncomingEdge(headN).edgeState = State.LABELED;
 		tailN = headN;
 	    } while (tailN != null);
 	    for (int i = result.size() - 1; i > 0; i--)
-		this.jSolution.append("Vertical " + Integer.toString(result.get(i).getData()) + " -> ");
-	    this.jSolution.append("Vertical " + Integer.toString(result.get(0).getData()) + "\n");
-	    this.jSolution.append("\tDistance: " + Integer.toString(this.endVertical.getKey()));
+		this.jSolution.append("Vertex " + Integer.toString(result.get(i).getData()) + " -> ");
+	    this.jSolution.append("Vertex " + Integer.toString(result.get(0).getData()) + "\n");
+	    this.jSolution.append("\tDistance: " + Integer.toString(this.endVertex.getKey()));
 	    this.pnGraph.repaint();
 	    this.pnSolution.repaint();
 	}
