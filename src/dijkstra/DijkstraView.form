@@ -22,10 +22,10 @@
                       <Group type="102" attributes="1">
                           <Component id="pnButton" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
-                          <Component id="pnGraph" pref="650" max="32767" attributes="2"/>
+                          <Component id="pnGraph" max="32767" attributes="2"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="pnHeap" pref="450" max="32767" attributes="2"/>
+                          <Component id="pnHeap" max="32767" attributes="2"/>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Component id="pnSolution" min="-2" max="-2" attributes="2"/>
                       </Group>
@@ -71,7 +71,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="btnVertical" linkSize="7" alignment="2" min="-2" pref="70" max="-2" attributes="0"/>
+                              <Component id="btnVertex" linkSize="7" alignment="2" min="-2" pref="70" max="-2" attributes="0"/>
                               <Component id="btnEdge" linkSize="7" alignment="2" min="-2" pref="70" max="-2" attributes="0"/>
                               <Component id="btnStart" linkSize="7" alignment="2" pref="70" max="32767" attributes="1"/>
                               <Component id="btnEnd" linkSize="7" alignment="2" pref="70" max="32767" attributes="1"/>
@@ -88,7 +88,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Component id="btnVertical" pref="30" max="32767" attributes="0"/>
+                      <Component id="btnVertex" pref="30" max="32767" attributes="0"/>
                       <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                       <Component id="btnEdge" pref="30" max="32767" attributes="0"/>
                       <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
@@ -107,15 +107,15 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JButton" name="btnVertical">
+            <Component class="javax.swing.JButton" name="btnVertex">
               <Properties>
-                <Property name="text" type="java.lang.String" resourceKey="btnVertical.text"/>
-                <Property name="toolTipText" type="java.lang.String" resourceKey="btnVertical.toolTipText"/>
+                <Property name="text" type="java.lang.String" resourceKey="btnVertex.text"/>
+                <Property name="toolTipText" type="java.lang.String" resourceKey="btnVertex.toolTipText"/>
                 <Property name="horizontalTextPosition" type="int" value="0"/>
                 <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[70, 30]"/>
                 </Property>
-                <Property name="name" type="java.lang.String" value="btnVertical" noResource="true"/>
+                <Property name="name" type="java.lang.String" value="btnVertex" noResource="true"/>
                 <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                   <Dimension value="[70, 30]"/>
                 </Property>
@@ -124,7 +124,7 @@
                 <Property name="AccessibleContext.accessibleDescription" type="java.lang.String" resourceKey="btnNode.AccessibleContext.accessibleDescription"/>
               </AccessibilityProperties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnVerticalMouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnVertexMouseClicked"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnEdge">
@@ -256,6 +256,7 @@
           </Properties>
           <Events>
             <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="pnGraphMouseReleased"/>
+            <EventHandler event="mouseMoved" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="pnGraphMouseMoved"/>
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="*/this.pnGraph = new jGraphPanel();"/>
@@ -268,7 +269,7 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace pref="377" max="32767" attributes="0"/>
+                      <EmptySpace pref="327" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="jRandomCheck" min="-2" max="-2" attributes="0"/>
@@ -348,7 +349,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jTextHeap" pref="418" max="32767" attributes="0"/>
+                      <Component id="jTextHeap" pref="368" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
