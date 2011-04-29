@@ -15,9 +15,16 @@
 
 package dijkstra;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import javax.swing.JApplet;
 import java.util.ArrayList;
 import java.util.Random;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -55,6 +62,8 @@ public class DijkstraJApplet extends JApplet {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jSaveFileChooser = new javax.swing.JFileChooser();
+        jOpenFileChooser = new javax.swing.JFileChooser();
         pnButton = new javax.swing.JPanel();
         btnVertex = new javax.swing.JButton();
         btnEdge = new javax.swing.JButton();
@@ -63,6 +72,8 @@ public class DijkstraJApplet extends JApplet {
         btnStep = new javax.swing.JButton();
         btnSolve = new javax.swing.JButton();
         btnClear = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
+        btnOpen = new javax.swing.JButton();
         /*
         pnGraph = new javax.swing.JPanel();
         */this.pnGraph = new jGraphPanel();
@@ -76,257 +87,286 @@ public class DijkstraJApplet extends JApplet {
         jScrollPane1 = new javax.swing.JScrollPane();
         jSolution = new javax.swing.JTextArea();
 
-        pnButton.setMinimumSize(new java.awt.Dimension(90, 300));
+        jSaveFileChooser.setDialogType(javax.swing.JFileChooser.SAVE_DIALOG);
+        jSaveFileChooser.setFileFilter(new AppFilter());
 
-        btnVertex.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        btnVertex.setText("Vertex");
-        btnVertex.setToolTipText("Add new vertex");
-        btnVertex.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnVertex.setMinimumSize(new java.awt.Dimension(70, 30));
-        btnVertex.setPreferredSize(new java.awt.Dimension(70, 30));
-        btnVertex.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnVertexMouseClicked(evt);
-            }
-        });
+        jOpenFileChooser.setCurrentDirectory(new java.io.File("C:\\"));
+            jOpenFileChooser.setFileFilter(new AppFilter());
+            jOpenFileChooser.getAccessibleContext().setAccessibleParent(this);
 
-        btnEdge.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        btnEdge.setText("Edge");
-        btnEdge.setToolTipText("Add new edge");
-        btnEdge.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnEdge.setMinimumSize(new java.awt.Dimension(70, 30));
-        btnEdge.setPreferredSize(new java.awt.Dimension(70, 30));
-        btnEdge.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnEdgeMouseClicked(evt);
-            }
-        });
+            pnButton.setMinimumSize(new java.awt.Dimension(90, 300));
 
-        btnStart.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        btnStart.setText("Start");
-        btnStart.setToolTipText("Choose start vertical");
-        btnStart.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnStart.setMinimumSize(new java.awt.Dimension(70, 30));
-        btnStart.setPreferredSize(new java.awt.Dimension(70, 30));
-        btnStart.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnStartMouseClicked(evt);
-            }
-        });
+            btnVertex.setFont(new java.awt.Font("Monospaced", 0, 12));
+            btnVertex.setText("Vertex");
+            btnVertex.setToolTipText("Add new vertex");
+            btnVertex.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+            btnVertex.setMinimumSize(new java.awt.Dimension(70, 30));
+            btnVertex.setPreferredSize(new java.awt.Dimension(70, 30));
+            btnVertex.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    btnVertexMouseClicked(evt);
+                }
+            });
 
-        btnEnd.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        btnEnd.setText("End");
-        btnEnd.setToolTipText("Choose end vertical");
-        btnEnd.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnEnd.setMinimumSize(new java.awt.Dimension(70, 30));
-        btnEnd.setPreferredSize(new java.awt.Dimension(70, 30));
-        btnEnd.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnEndMouseClicked(evt);
-            }
-        });
+            btnEdge.setFont(new java.awt.Font("Monospaced", 0, 12));
+            btnEdge.setText("Edge");
+            btnEdge.setToolTipText("Add new edge");
+            btnEdge.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+            btnEdge.setMinimumSize(new java.awt.Dimension(70, 30));
+            btnEdge.setPreferredSize(new java.awt.Dimension(70, 30));
+            btnEdge.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    btnEdgeMouseClicked(evt);
+                }
+            });
 
-        btnStep.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        btnStep.setText("Step");
-        btnStep.setToolTipText("Run algorithm step by step");
-        btnStep.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnStep.setMinimumSize(new java.awt.Dimension(70, 30));
-        btnStep.setPreferredSize(new java.awt.Dimension(70, 30));
-        btnStep.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnStepMouseClicked(evt);
-            }
-        });
+            btnStart.setFont(new java.awt.Font("Monospaced", 0, 12));
+            btnStart.setText("Start");
+            btnStart.setToolTipText("Choose start vertical");
+            btnStart.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+            btnStart.setMinimumSize(new java.awt.Dimension(70, 30));
+            btnStart.setPreferredSize(new java.awt.Dimension(70, 30));
+            btnStart.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    btnStartMouseClicked(evt);
+                }
+            });
 
-        btnSolve.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        btnSolve.setText("Solve");
-        btnSolve.setToolTipText("Solve current graph");
-        btnSolve.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnSolve.setMinimumSize(new java.awt.Dimension(70, 30));
-        btnSolve.setPreferredSize(new java.awt.Dimension(70, 30));
-        btnSolve.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnSolveMouseClicked(evt);
-            }
-        });
+            btnEnd.setFont(new java.awt.Font("Monospaced", 0, 12));
+            btnEnd.setText("End");
+            btnEnd.setToolTipText("Choose end vertical");
+            btnEnd.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+            btnEnd.setMinimumSize(new java.awt.Dimension(70, 30));
+            btnEnd.setPreferredSize(new java.awt.Dimension(70, 30));
+            btnEnd.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    btnEndMouseClicked(evt);
+                }
+            });
 
-        btnClear.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        btnClear.setText("Clear");
-        btnClear.setToolTipText("Clear current graph");
-        btnClear.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnClear.setMaximumSize(new java.awt.Dimension(50, 50));
-        btnClear.setMinimumSize(new java.awt.Dimension(70, 30));
-        btnClear.setPreferredSize(new java.awt.Dimension(70, 30));
-        btnClear.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnClearMouseClicked(evt);
-            }
-        });
+            btnStep.setFont(new java.awt.Font("Monospaced", 0, 12));
+            btnStep.setText("Step");
+            btnStep.setToolTipText("Run algorithm step by step");
+            btnStep.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+            btnStep.setMinimumSize(new java.awt.Dimension(70, 30));
+            btnStep.setPreferredSize(new java.awt.Dimension(70, 30));
+            btnStep.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    btnStepMouseClicked(evt);
+                }
+            });
 
-        javax.swing.GroupLayout pnButtonLayout = new javax.swing.GroupLayout(pnButton);
-        pnButton.setLayout(pnButtonLayout);
-        pnButtonLayout.setHorizontalGroup(
-            pnButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnButtonLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(pnButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(btnVertex, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnEdge, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnStart, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
-                        .addComponent(btnEnd, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
-                        .addComponent(btnSolve, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
-                        .addComponent(btnStep, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+            btnSolve.setFont(new java.awt.Font("Monospaced", 0, 12));
+            btnSolve.setText("Solve");
+            btnSolve.setToolTipText("Solve current graph");
+            btnSolve.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+            btnSolve.setMinimumSize(new java.awt.Dimension(70, 30));
+            btnSolve.setPreferredSize(new java.awt.Dimension(70, 30));
+            btnSolve.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    btnSolveMouseClicked(evt);
+                }
+            });
 
-        pnButtonLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClear, btnEdge, btnEnd, btnSolve, btnStart, btnStep, btnVertex});
+            btnClear.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+            btnClear.setText("Clear");
+            btnClear.setToolTipText("Clear current graph");
+            btnClear.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+            btnClear.setMaximumSize(new java.awt.Dimension(50, 50));
+            btnClear.setMinimumSize(new java.awt.Dimension(70, 30));
+            btnClear.setPreferredSize(new java.awt.Dimension(70, 30));
+            btnClear.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    btnClearMouseClicked(evt);
+                }
+            });
 
-        pnButtonLayout.setVerticalGroup(
-            pnButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnButtonLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(btnVertex, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnEdge, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnStart, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnEnd, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnSolve, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnStep, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnClear, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                .addGap(13, 13, 13))
-        );
+            btnSave.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+            btnSave.setText("Save");
+            btnSave.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    btnSaveMouseClicked(evt);
+                }
+            });
 
-        pnGraph.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Graph", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Monospaced", 0, 12))); // NOI18N
-        pnGraph.setToolTipText("Graph design here");
-        pnGraph.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        pnGraph.setMinimumSize(new java.awt.Dimension(600, 300));
-        pnGraph.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                pnGraphMouseReleased(evt);
-            }
-        });
-        pnGraph.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                pnGraphMouseMoved(evt);
-            }
-        });
+            btnOpen.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
+            btnOpen.setText("Open");
+            btnOpen.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    btnOpenMouseClicked(evt);
+                }
+            });
 
-        jTextStatus.setEditable(false);
-        jTextStatus.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
-        jTextStatus.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jTextStatus.setAutoscrolls(false);
-        jTextStatus.setBorder(null);
+            javax.swing.GroupLayout pnButtonLayout = new javax.swing.GroupLayout(pnButton);
+            pnButton.setLayout(pnButtonLayout);
+            pnButtonLayout.setHorizontalGroup(
+                pnButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnButtonLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(pnButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(pnButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnVertex, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEdge, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnStart, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                            .addComponent(btnEnd, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                            .addComponent(btnSolve, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                            .addComponent(btnStep, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnClear, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnSave)
+                        .addComponent(btnOpen))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            );
 
-        jRandomCheck.setFont(new java.awt.Font("Monospaced", 0, 10)); // NOI18N
-        jRandomCheck.setSelected(true);
-        jRandomCheck.setText("Random length");
-        jRandomCheck.setToolTipText("Set random length for edge");
-        jRandomCheck.setEnabled(false);
+            pnButtonLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClear, btnEdge, btnEnd, btnOpen, btnSave, btnSolve, btnStart, btnStep, btnVertex});
 
-        javax.swing.GroupLayout pnGraphLayout = new javax.swing.GroupLayout(pnGraph);
-        pnGraph.setLayout(pnGraphLayout);
-        pnGraphLayout.setHorizontalGroup(
-            pnGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnGraphLayout.createSequentialGroup()
-                .addContainerGap(339, Short.MAX_VALUE)
-                .addGroup(pnGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnGraphLayout.createSequentialGroup()
-                        .addComponent(jRandomCheck)
-                        .addContainerGap())
-                    .addComponent(jTextStatus, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
-        pnGraphLayout.setVerticalGroup(
-            pnGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnGraphLayout.createSequentialGroup()
-                .addComponent(jTextStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 225, Short.MAX_VALUE)
-                .addComponent(jRandomCheck)
-                .addContainerGap())
-        );
+            pnButtonLayout.setVerticalGroup(
+                pnButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnButtonLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(btnVertex, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(btnEdge, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(btnStart, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(btnEnd, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(btnSolve, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(btnStep, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(btnClear, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(btnSave, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(btnOpen, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                    .addGap(29, 29, 29))
+            );
 
-        pnHeap.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Heap", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Monospaced", 0, 12))); // NOI18N
-        pnHeap.setToolTipText("Show fibonacci heap on solving");
-        pnHeap.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        pnHeap.setMinimumSize(new java.awt.Dimension(400, 250));
+            pnGraph.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Graph", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Monospaced", 0, 12))); // NOI18N
+            pnGraph.setToolTipText("Graph design here");
+            pnGraph.setFont(new java.awt.Font("Monospaced", 0, 12));
+            pnGraph.setMinimumSize(new java.awt.Dimension(600, 300));
+            pnGraph.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseReleased(java.awt.event.MouseEvent evt) {
+                    pnGraphMouseReleased(evt);
+                }
+            });
+            pnGraph.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+                public void mouseMoved(java.awt.event.MouseEvent evt) {
+                    pnGraphMouseMoved(evt);
+                }
+            });
 
-        jTextHeap.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
-        jTextHeap.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+            jTextStatus.setEditable(false);
+            jTextStatus.setFont(new java.awt.Font("Consolas", 0, 12));
+            jTextStatus.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+            jTextStatus.setAutoscrolls(false);
+            jTextStatus.setBorder(null);
 
-        javax.swing.GroupLayout pnHeapLayout = new javax.swing.GroupLayout(pnHeap);
-        pnHeap.setLayout(pnHeapLayout);
-        pnHeapLayout.setHorizontalGroup(
-            pnHeapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnHeapLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTextHeap, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        pnHeapLayout.setVerticalGroup(
-            pnHeapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnHeapLayout.createSequentialGroup()
-                .addComponent(jTextHeap, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(204, Short.MAX_VALUE))
-        );
+            jRandomCheck.setFont(new java.awt.Font("Monospaced", 0, 10));
+            jRandomCheck.setSelected(true);
+            jRandomCheck.setText("Random length");
+            jRandomCheck.setToolTipText("Set random length for edge");
+            jRandomCheck.setEnabled(false);
 
-        pnSolution.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Solution", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Monospaced", 0, 12))); // NOI18N
-        pnSolution.setToolTipText("Result will show here");
-        pnSolution.setMinimumSize(new java.awt.Dimension(290, 250));
+            javax.swing.GroupLayout pnGraphLayout = new javax.swing.GroupLayout(pnGraph);
+            pnGraph.setLayout(pnGraphLayout);
+            pnGraphLayout.setHorizontalGroup(
+                pnGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnGraphLayout.createSequentialGroup()
+                    .addContainerGap(339, Short.MAX_VALUE)
+                    .addGroup(pnGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnGraphLayout.createSequentialGroup()
+                            .addComponent(jRandomCheck)
+                            .addContainerGap())
+                        .addComponent(jTextStatus, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            );
+            pnGraphLayout.setVerticalGroup(
+                pnGraphLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnGraphLayout.createSequentialGroup()
+                    .addComponent(jTextStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 305, Short.MAX_VALUE)
+                    .addComponent(jRandomCheck)
+                    .addContainerGap())
+            );
 
-        jSolution.setColumns(20);
-        jSolution.setEditable(false);
-        jSolution.setFont(new java.awt.Font("Monospaced", 0, 12)); // NOI18N
-        jSolution.setLineWrap(true);
-        jSolution.setRows(4);
-        jSolution.setToolTipText("Result will show here");
-        jSolution.setWrapStyleWord(true);
-        jSolution.setBorder(null);
-        jSolution.setEnabled(false);
-        jSolution.setFocusable(false);
-        jScrollPane1.setViewportView(jSolution);
+            pnHeap.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Heap", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Monospaced", 0, 12))); // NOI18N
+            pnHeap.setToolTipText("Show fibonacci heap on solving");
+            pnHeap.setFont(new java.awt.Font("Monospaced", 0, 12));
+            pnHeap.setMinimumSize(new java.awt.Dimension(400, 250));
 
-        javax.swing.GroupLayout pnSolutionLayout = new javax.swing.GroupLayout(pnSolution);
-        pnSolution.setLayout(pnSolutionLayout);
-        pnSolutionLayout.setHorizontalGroup(
-            pnSolutionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
-        );
-        pnSolutionLayout.setVerticalGroup(
-            pnSolutionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
-        );
+            jTextHeap.setFont(new java.awt.Font("Consolas", 0, 12));
+            jTextHeap.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(pnButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(pnHeap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pnSolution, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(pnGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnHeap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pnSolution, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-        );
-    }// </editor-fold>//GEN-END:initComponents
+            javax.swing.GroupLayout pnHeapLayout = new javax.swing.GroupLayout(pnHeap);
+            pnHeap.setLayout(pnHeapLayout);
+            pnHeapLayout.setHorizontalGroup(
+                pnHeapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnHeapLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jTextHeap, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)
+                    .addContainerGap())
+            );
+            pnHeapLayout.setVerticalGroup(
+                pnHeapLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnHeapLayout.createSequentialGroup()
+                    .addComponent(jTextHeap, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(206, Short.MAX_VALUE))
+            );
+
+            pnSolution.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Solution", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Monospaced", 0, 12))); // NOI18N
+            pnSolution.setToolTipText("Result will show here");
+            pnSolution.setMinimumSize(new java.awt.Dimension(290, 250));
+
+            jSolution.setColumns(20);
+            jSolution.setEditable(false);
+            jSolution.setFont(new java.awt.Font("Monospaced", 0, 12));
+            jSolution.setLineWrap(true);
+            jSolution.setRows(4);
+            jSolution.setToolTipText("Result will show here");
+            jSolution.setWrapStyleWord(true);
+            jSolution.setBorder(null);
+            jSolution.setEnabled(false);
+            jSolution.setFocusable(false);
+            jScrollPane1.setViewportView(jSolution);
+
+            javax.swing.GroupLayout pnSolutionLayout = new javax.swing.GroupLayout(pnSolution);
+            pnSolution.setLayout(pnSolutionLayout);
+            pnSolutionLayout.setHorizontalGroup(
+                pnSolutionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
+            );
+            pnSolutionLayout.setVerticalGroup(
+                pnSolutionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+            );
+
+            javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+            getContentPane().setLayout(layout);
+            layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(pnButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(pnGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(pnHeap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(pnSolution, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            );
+            layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(pnGraph, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pnButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(pnHeap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pnSolution, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            );
+        }// </editor-fold>//GEN-END:initComponents
 
     private void btnVertexMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVertexMouseClicked
 	
@@ -550,15 +590,87 @@ public class DijkstraJApplet extends JApplet {
 	}
 }//GEN-LAST:event_pnGraphMouseMoved
 
+    private void btnSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseClicked
+	
+	this.jTextStatus.setText("");
+	if (this.pnGraph.listEdges.isEmpty() && this.pnGraph.listVertexs.isEmpty()) {
+	    this.jTextStatus.setText("Empty graph, not save");
+	    return;
+	}
+	if (this.jSaveFileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+	    File file = this.jSaveFileChooser.getSelectedFile();
+	    try {
+		BufferedWriter output = new BufferedWriter(new FileWriter(file));
+		try {
+		    for (Vertex Vertex : this.pnGraph.listVertexs) {
+			output.write(String.format("Vertex:%d:%d:%d", Vertex.getData(), Vertex.getX_cor(), Vertex.getY_cor()));
+			output.newLine();
+		    }
+		    for (Edge edge : this.pnGraph.listEdges) {
+			output.write(String.format("Edge:%d:%d:%d", edge.getHead().getData(), edge.getTail().getData(), edge.getLength()));
+			output.newLine();
+		    }
+		    this.jTextStatus.setText("Save graph successfully");
+		} finally {
+		    output.close();
+		}
+	    } catch (IOException e) {
+	    }
+	}
+    }//GEN-LAST:event_btnSaveMouseClicked
+
+    private void btnOpenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOpenMouseClicked
+	
+	this.jTextStatus.setText("");
+	if (this.jOpenFileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+	    File file = this.jOpenFileChooser.getSelectedFile();
+	    this.clearAll();
+	    try {
+		BufferedReader input = new BufferedReader(new FileReader(file));
+		try {
+		    String line = null;
+		    line = input.readLine();
+		    while (line != null) {
+			String splitLine[] = line.split(":");
+			if (splitLine[0].equals("Vertex")) {
+			    int d = Integer.parseInt(splitLine[1]);
+			    int x = Integer.parseInt(splitLine[2]);
+			    int y = Integer.parseInt(splitLine[3]);
+			    this.pnGraph.listVertexs.add(new Vertex(x, y, d, -1));
+			} else if (splitLine[0].equals("Edge")) {
+			    Vertex headVertex = this.pnGraph.listVertexs.get(Integer.parseInt(splitLine[1]));
+			    Vertex tailVertex = this.pnGraph.listVertexs.get(Integer.parseInt(splitLine[2]));
+			    int l = Integer.parseInt(splitLine[3]);
+			    Edge edge = new Edge( headVertex, tailVertex, l);
+			    edge.edgeType = this.pnGraph.checkEdge(headVertex, tailVertex);
+			    headVertex.outgoingEdges.add(edge);
+			    tailVertex.incomingEdges.add(edge);
+			    this.pnGraph.listEdges.add(edge);
+			}
+			line = input.readLine();
+		    }
+		    this.jTextStatus.setText("Load graph successfully");
+		} finally {
+		    input.close();
+		}
+	    } catch (IOException e) {
+	    }
+	}
+    }//GEN-LAST:event_btnOpenMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnEdge;
     private javax.swing.JButton btnEnd;
+    private javax.swing.JButton btnOpen;
+    private javax.swing.JButton btnSave;
     private javax.swing.JButton btnSolve;
     private javax.swing.JButton btnStart;
     private javax.swing.JButton btnStep;
     private javax.swing.JButton btnVertex;
+    private javax.swing.JFileChooser jOpenFileChooser;
     private javax.swing.JCheckBox jRandomCheck;
+    private javax.swing.JFileChooser jSaveFileChooser;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jSolution;
     private javax.swing.JLabel jTextHeap;
